@@ -73,12 +73,26 @@ int UtilsWrapper::SetupVideo() {
 	video_info.base_height = HEIGHT;
 	video_info.output_width = WIDTH;
 	video_info.output_height = HEIGHT;
-	video_info.output_format = VIDEO_FORMAT_NONE;
+	video_info.output_format = VIDEO_FORMAT_RGBA;
 	video_info.adapter = 0;
-	video_info.gpu_conversion = false;
+	video_info.gpu_conversion = true;
 	video_info.colorspace = VIDEO_CS_DEFAULT;
 	video_info.range = VIDEO_RANGE_DEFAULT;
 	video_info.scale_type = OBS_SCALE_DISABLE;
 	int val = obs_reset_video(&video_info);
 	return val;
+}
+
+bool UtilsWrapper::StartRec()
+{
+	if (!obs_output_start(output)) {
+		return false;
+	};
+	return true;
+}
+
+bool UtilsWrapper::StopRec()
+{
+	obs_output_stop(output);
+	return true;
 }
