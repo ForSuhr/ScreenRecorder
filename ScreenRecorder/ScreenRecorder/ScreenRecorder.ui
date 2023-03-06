@@ -6,18 +6,18 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>789</width>
-    <height>421</height>
+    <width>704</width>
+    <height>346</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>ScreenRecorder</string>
   </property>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
-     <x>180</x>
-     <y>130</y>
+     <x>130</x>
+     <y>100</y>
      <width>461</width>
      <height>141</height>
     </rect>
