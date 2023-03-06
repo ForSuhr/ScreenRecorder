@@ -10,6 +10,9 @@ public:
 	~UtilsWrapper();
 
 	bool InitUtils();
+	bool LoadPlugins();
+	bool SetupAudio();
+	int SetupVideo();
 
 };
 
