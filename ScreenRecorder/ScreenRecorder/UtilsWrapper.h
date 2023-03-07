@@ -16,10 +16,12 @@ public:
 private:
 	bool LoadPlugins();
 	bool SetupAudio();
-	int SetupVideo();
-	int SetupScene();
+	bool SetupVideo();
+	bool SetupScene();
 
 private:
 	OBSOutput output;
+	obs_source_t* fadeTransition = nullptr;
+	obs_scene_t* scene = nullptr;
 };
 

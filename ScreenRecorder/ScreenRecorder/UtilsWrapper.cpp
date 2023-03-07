@@ -2,6 +2,17 @@
 #include <string>
 #include <QApplication>
 
+#ifdef __APPLE__
+#define INPUT_AUDIO_SOURCE "coreaudio_input_capture"
+#define OUTPUT_AUDIO_SOURCE "coreaudio_output_capture"
+#elif _WIN32
+#define INPUT_AUDIO_SOURCE "wasapi_input_capture"
+#define OUTPUT_AUDIO_SOURCE "wasapi_output_capture"
+#else
+#define INPUT_AUDIO_SOURCE "pulse_input_capture"
+#define OUTPUT_AUDIO_SOURCE "pulse_output_capture"
+#endif
+
 using namespace std;
 constexpr auto DL_D3D11 = "libobs-d3d11.dll";
 constexpr auto DL_OPENGL = "libobs-opengl.dll";
@@ -15,6 +26,62 @@ enum SOURCE_CHANNELS {
 	SOURCE_CHANNEL_AUDIO_INPUT,
 };
 
+static void ResetAudioDevice(const char* sourceId, const char* deviceId,
+	const char* deviceDesc, int channel)
+{
+	bool disable = deviceId && strcmp(deviceId, "disabled") == 0;
+	obs_source_t* source;
+	obs_data_t* settings;
+
+	source = obs_get_output_source(channel);
+	if (source) {
+		if (disable) {
+			obs_set_output_source(channel, nullptr);
+		}
+		else {
+			settings = obs_source_get_settings(source);
+			const char* oldId =
+				obs_data_get_string(settings, "device_id");
+			if (strcmp(oldId, deviceId) != 0) {
+				obs_data_set_string(settings, "device_id",
+					deviceId);
+				obs_source_update(source, settings);
+			}
+			obs_data_release(settings);
+		}
+		
+		obs_source_release(source);
+
+	}
+	else if (!disable) {
+		settings = obs_data_create();
+		obs_data_set_string(settings, "device_id", deviceId);
+		source = obs_source_create(sourceId, deviceDesc, settings,
+			nullptr);
+		obs_data_release(settings);
+
+		obs_set_output_source(channel, source);
+		obs_source_release(source);
+	}
+}
+
+static inline bool HasAudioDevices(const char* source_id)
+{
+	const char* output_id = source_id;
+	obs_properties_t* props = obs_get_source_properties(output_id);
+	size_t count = 0;
+
+	if (!props)
+		return false;
+
+	obs_property_t* devices = obs_properties_get(props, "device_id");
+	if (devices)
+		count = obs_property_list_item_count(devices);
+
+	obs_properties_destroy(props);
+
+	return count != 0;
+}
 
 UtilsWrapper::UtilsWrapper()
 {
@@ -46,7 +113,12 @@ bool UtilsWrapper::InitUtils()
 	}	
 	
 	// setup video
-	if (SetupVideo() != OBS_VIDEO_SUCCESS) {
+	if (!SetupVideo()) {
+		return false;
+	}
+
+	// setup scene
+	if (!SetupScene()) {
 		return false;
 	}
 
@@ -70,7 +142,7 @@ bool UtilsWrapper::SetupAudio() {
 	return obs_reset_audio(&audio_info);
 }
 
-int UtilsWrapper::SetupVideo() {
+bool UtilsWrapper::SetupVideo() {
 	struct obs_video_info video_info;
 	video_info.graphics_module = DL_D3D11;
 	video_info.fps_num = FPS;
@@ -85,16 +157,58 @@ int UtilsWrapper::SetupVideo() {
 	video_info.colorspace = VIDEO_CS_DEFAULT;
 	video_info.range = VIDEO_RANGE_DEFAULT;
 	video_info.scale_type = OBS_SCALE_DISABLE;
-	return obs_reset_video(&video_info);
+	if (obs_reset_video(&video_info) != OBS_VIDEO_SUCCESS) {
+		return false;
+	}
+	return true;
 }
 
-int UtilsWrapper::SetupScene()
+bool UtilsWrapper::SetupScene()
 {
 	obs_set_output_source(SOURCE_CHANNEL_TRANSITION, nullptr);
 	obs_set_output_source(SOURCE_CHANNEL_AUDIO_OUTPUT, nullptr);
 	obs_set_output_source(SOURCE_CHANNEL_AUDIO_INPUT, nullptr);
 
-	return 0;
+	size_t idx = 0;
+	const char* id;
+
+	while (obs_enum_transition_types(idx++, &id)) {
+		const char* name = obs_source_get_display_name(id);
+
+		if (!obs_is_source_configurable(id)) {
+			obs_source_t* tr = obs_source_create_private(id, name, NULL);
+
+			if (strcmp(id, "fade_transition") == 0)
+				fadeTransition = tr;
+		}
+	}
+
+	if (!fadeTransition) {
+		return false;
+	}
+	
+	obs_set_output_source(SOURCE_CHANNEL_TRANSITION, fadeTransition);
+	obs_source_release(fadeTransition);
+
+	scene = obs_scene_create("DefaultScene");
+
+	if (!scene) {
+		return false;
+	}
+
+	obs_source_t* source = obs_get_output_source(SOURCE_CHANNEL_TRANSITION);
+	obs_transition_set(source, obs_scene_get_source(scene));
+	obs_source_release(source);
+
+	bool hasDesktopAudio = HasAudioDevices(OUTPUT_AUDIO_SOURCE);
+	bool hasInputAudio = HasAudioDevices(INPUT_AUDIO_SOURCE);
+
+	if (hasDesktopAudio)
+		ResetAudioDevice(OUTPUT_AUDIO_SOURCE, "default", "Desktop Audio", SOURCE_CHANNEL_AUDIO_OUTPUT);
+	if (hasInputAudio)
+		ResetAudioDevice(INPUT_AUDIO_SOURCE, "default", "Mic/Aux", SOURCE_CHANNEL_AUDIO_INPUT);
+
+	return true;
 }
 
 bool UtilsWrapper::StartRec()
