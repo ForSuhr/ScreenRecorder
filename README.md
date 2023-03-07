@@ -1,2 +1,2 @@
 # ScreenRecorder
-An elegant cross-platform screen recorder.
+An elegant cross-platform screen recorder. Currently in development.
