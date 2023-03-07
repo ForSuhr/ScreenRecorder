@@ -9,6 +9,12 @@ constexpr auto FPS = 60;
 constexpr auto WIDTH = 1920;
 constexpr auto HEIGHT = 1080;
 
+enum SOURCE_CHANNELS {
+	SOURCE_CHANNEL_TRANSITION,
+	SOURCE_CHANNEL_AUDIO_OUTPUT,
+	SOURCE_CHANNEL_AUDIO_INPUT,
+};
+
 
 UtilsWrapper::UtilsWrapper()
 {
@@ -79,8 +85,16 @@ int UtilsWrapper::SetupVideo() {
 	video_info.colorspace = VIDEO_CS_DEFAULT;
 	video_info.range = VIDEO_RANGE_DEFAULT;
 	video_info.scale_type = OBS_SCALE_DISABLE;
-	int val = obs_reset_video(&video_info);
-	return val;
+	return obs_reset_video(&video_info);
+}
+
+int UtilsWrapper::SetupScene()
+{
+	obs_set_output_source(SOURCE_CHANNEL_TRANSITION, nullptr);
+	obs_set_output_source(SOURCE_CHANNEL_AUDIO_OUTPUT, nullptr);
+	obs_set_output_source(SOURCE_CHANNEL_AUDIO_INPUT, nullptr);
+
+	return 0;
 }
 
 bool UtilsWrapper::StartRec()

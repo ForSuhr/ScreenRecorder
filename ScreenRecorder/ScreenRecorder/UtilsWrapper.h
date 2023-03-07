@@ -17,6 +17,7 @@ private:
 	bool LoadPlugins();
 	bool SetupAudio();
 	int SetupVideo();
+	int SetupScene();
 
 private:
 	OBSOutput output;
