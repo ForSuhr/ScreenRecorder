@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>704</width>
-    <height>346</height>
+    <width>550</width>
+    <height>239</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,15 +16,28 @@
   <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
-     <x>130</x>
-     <y>100</y>
-     <width>461</width>
+     <x>20</x>
+     <y>50</y>
+     <width>481</width>
      <height>141</height>
     </rect>
    </property>
    <layout class="QHBoxLayout" name="hbox">
     <item>
-     <widget class="QLCDNumber" name="lcdNumber"/>
+     <widget class="QLCDNumber" name="lcdNumber">
+      <property name="minimumSize">
+       <size>
+        <width>160</width>
+        <height>90</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>320</width>
+        <height>180</height>
+       </size>
+      </property>
+     </widget>
     </item>
     <item>
      <spacer name="horizontalSpacer">

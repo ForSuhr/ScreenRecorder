@@ -17,16 +17,16 @@
 #endif
 
 using namespace std;
-constexpr auto DL_D3D11 = "libobs-d3d11.dll";
-constexpr auto DL_OPENGL = "libobs-opengl.dll";
-constexpr auto FPS = 60;
-constexpr auto WIDTH = 1920;
-constexpr auto HEIGHT = 1080;
 
-#define VIDEO_ENCODER_ID           AV_CODEC_ID_H264
-#define VIDEO_ENCODER_NAME         "libx264"
-#define RECORD_OUTPUT_FORMAT       "mp4"
-#define RECORD_OUTPUT_FORMAT_MIME  "video/mp4"
+#define DL_D3D11 "libobs-d3d11.dll"
+#define DL_OPENGL "libobs-opengl.dll"
+#define FPS	60
+#define WIDTH 1920
+#define HEIGHT 1080
+#define VIDEO_ENCODER_ID AV_CODEC_ID_H264
+#define VIDEO_ENCODER_NAME "libx264"
+#define RECORD_OUTPUT_FORMAT "mp4"
+#define RECORD_OUTPUT_FORMAT_MIME "video/mp4"
 #define AUDIO_BITRATE 128 
 #define VIDEO_BITRATE 150
 #define OUT_WIDTH  1920
