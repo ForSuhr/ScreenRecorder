@@ -20,11 +20,14 @@ void ScreenRecorder::on_btnRec_clicked()
 {
     if (!m_isRecording) {
         ui.btnRec->setText("Stop");
-        m_isRecording = true;
+        if (ptr_utilsWrapper->StartRec()) {
+            m_isRecording = true;
+        }
     }
     else {
         ui.btnRec->setText("Start");
-        m_isRecording = false;
+        if (ptr_utilsWrapper->StopRec()) {
+            m_isRecording = false;
+        }
     }
-
 }
