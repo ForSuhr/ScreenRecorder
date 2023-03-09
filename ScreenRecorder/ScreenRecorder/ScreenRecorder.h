@@ -2,6 +2,7 @@
 
 #include <QtWidgets/QWidget>
 #include "ui_ScreenRecorder.h"
+#include "TitleBar.h"
 #include "UtilsWrapper.h"
 #include <memory>
 #include <QTimer>
@@ -20,6 +21,7 @@ public slots:
 
 private:
     Ui::ScreenRecorderClass ui;
+    TitleBar* m_pTitle;
     std::unique_ptr<UtilsWrapper> m_pUtilsWrapper;
     QTimer* m_pTimer;
 

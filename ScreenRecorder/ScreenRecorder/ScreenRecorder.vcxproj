@@ -93,14 +93,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="TitleBar.cpp" />
     <ClCompile Include="UtilsWrapper.cpp" />
     <QtRcc Include="ScreenRecorder.qrc" />
     <QtUic Include="ScreenRecorder.ui" />
     <QtMoc Include="ScreenRecorder.h" />
     <ClCompile Include="ScreenRecorder.cpp" />
     <ClCompile Include="main.cpp" />
+    <QtUic Include="TitleBar.ui" />
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="TitleBar.h" />
     <ClInclude Include="UtilsWrapper.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

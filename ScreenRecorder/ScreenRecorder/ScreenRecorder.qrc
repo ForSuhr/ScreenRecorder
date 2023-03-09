@@ -1,4 +1,9 @@
 <RCC>
-    <qresource prefix="ScreenRecorder">
+    <qresource prefix="/ScreenRecorder">
+        <file>Asset/Icon/close.svg</file>
+        <file>Asset/Icon/close_hover.svg</file>
+        <file>Asset/Icon/min.svg</file>
+        <file>Asset/Icon/min_hover.svg</file>
+        <file>Asset/Icon/logo.svg</file>
     </qresource>
 </RCC>
