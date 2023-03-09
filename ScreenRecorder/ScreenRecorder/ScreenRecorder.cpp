@@ -4,16 +4,16 @@
 
 #define TIME_OUT_MILLISECONDS 1000
 
+// style sheet
+static QString playBtnStyle = "QPushButton{border-image:url(:/ScreenRecorder/Asset/Icon/play.svg)}"
+"QPushButton::hover{border-image:url(:/ScreenRecorder/Asset/Icon/play_hover.svg)}";
+static QString stopBtnStyle = "QPushButton{border-image:url(:/ScreenRecorder/Asset/Icon/stop.svg)}"
+"QPushButton::hover{border-image:url(:/ScreenRecorder/Asset/Icon/stop_hover.svg)}";
+
 ScreenRecorder::ScreenRecorder(QWidget *parent)
     : QWidget(parent), m_pUtilsWrapper(new UtilsWrapper)
 {
     ui.setupUi(this);
-
-    // style sheet
-    QString playBtnStyle = "QPushButton{border-image:url(:/ScreenRecorder/Asset/Icon/play.svg)}"
-        "QPushButton::hover{border-image:url(:/ScreenRecorder/Asset/Icon/play_hover.svg)}";
-    QString stopBtnStyle = "QPushButton{border-image:url(:/ScreenRecorder/Asset/Icon/stop.svg)}"
-        "QPushButton::hover{border-image:url(:/ScreenRecorder/Asset/Icon/stop_hover.svg)}";
 
     // title bar
     m_pTitle = new TitleBar(this);
@@ -57,6 +57,8 @@ void ScreenRecorder::on_btnRec_clicked()
     else {
         if (m_pUtilsWrapper->StopRec()) {
             m_pTimer->stop();
+            m_RecSeconds = 0;
+            ui.lcdNumber->display("00:00:00");
             ui.btnRec->setStyleSheet(playBtnStyle);
             m_isRecording = false;
         }

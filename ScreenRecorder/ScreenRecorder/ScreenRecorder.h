@@ -24,8 +24,6 @@ private:
     TitleBar* m_pTitle;
     std::unique_ptr<UtilsWrapper> m_pUtilsWrapper;
     QTimer* m_pTimer;
-    QString playBtnStyle;
-    QString stopBtnStyle;
 
     bool m_isRecording = false;
     int m_RecSeconds = 0;
