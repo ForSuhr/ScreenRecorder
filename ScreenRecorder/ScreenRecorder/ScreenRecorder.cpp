@@ -1,19 +1,25 @@
 #include "ScreenRecorder.h"
 #include <QMessageBox>
 #include <QHBoxLayout>
+#include <QFile>
 
 #define TIME_OUT_MILLISECONDS 1000
 
 // style sheet
-static QString playBtnStyle = "QPushButton{border-image:url(:/ScreenRecorder/Asset/Icon/play.svg)}"
-"QPushButton::hover{border-image:url(:/ScreenRecorder/Asset/Icon/play_hover.svg)}";
-static QString stopBtnStyle = "QPushButton{border-image:url(:/ScreenRecorder/Asset/Icon/stop.svg)}"
-"QPushButton::hover{border-image:url(:/ScreenRecorder/Asset/Icon/stop_hover.svg)}";
+static QString qssNoxPath = ":/Style/Asset/Style/nox.qss";
+static QString qssLumosPath = ":/Style/Asset/Style/lumos.qss";
+static QString playBtnStyle = "QPushButton{border-radius:48px;border-image:url(:/Icon/Asset/Icon/play.svg)}"
+"QPushButton::hover{border-radius:48px;border-image:url(:/Icon/Asset/Icon/play_hover.svg)}";
+static QString stopBtnStyle = "QPushButton{border-radius:48px;border-image:url(:/Icon/Asset/Icon/stop.svg)}"
+"QPushButton::hover{border-radius:48px;border-image:url(:/Icon/Asset/Icon/stop_hover.svg)}";
 
 ScreenRecorder::ScreenRecorder(QWidget *parent)
     : QWidget(parent), m_pUtilsWrapper(new UtilsWrapper)
 {
     ui.setupUi(this);
+
+    // style sheet
+    LoadQSS(qssNoxPath);
 
     // title bar
     m_pTitle = new TitleBar(this);
@@ -41,6 +47,20 @@ ScreenRecorder::ScreenRecorder(QWidget *parent)
 
 ScreenRecorder::~ScreenRecorder()
 {}
+
+void ScreenRecorder::LoadQSS(QString qssPath)
+{
+    QFile file(qssPath);
+    QString qss;
+
+    if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        QString qss = file.readAll();
+    }
+
+    file.close();
+
+    this->setStyleSheet(qss);
+}
 
 void ScreenRecorder::on_btnRec_clicked()
 {

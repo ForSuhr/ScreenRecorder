@@ -15,6 +15,8 @@ public:
     ScreenRecorder(QWidget *parent = nullptr);
     ~ScreenRecorder();
 
+    void LoadQSS(QString qssPath);
+
 public slots:
     void on_btnRec_clicked();
     void on_timer();

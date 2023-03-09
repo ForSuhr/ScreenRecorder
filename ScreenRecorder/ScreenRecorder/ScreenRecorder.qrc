@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/ScreenRecorder">
+    <qresource prefix="/Icon">
         <file>Asset/Icon/close.svg</file>
         <file>Asset/Icon/close_hover.svg</file>
         <file>Asset/Icon/min.svg</file>
@@ -9,5 +9,9 @@
         <file>Asset/Icon/play_hover.svg</file>
         <file>Asset/Icon/stop.svg</file>
         <file>Asset/Icon/stop_hover.svg</file>
+    </qresource>
+    <qresource prefix="/Style">
+        <file>Asset/Style/lumos.qss</file>
+        <file>Asset/Style/nox.qss</file>
     </qresource>
 </RCC>

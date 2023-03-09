@@ -28,6 +28,9 @@
   <property name="windowTitle">
    <string>TitleBar</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
    <property name="spacing">
     <number>10</number>

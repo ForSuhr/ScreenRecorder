@@ -3,12 +3,16 @@
 #include "TitleBar.h"
 #include <QMouseEvent>
 
+static QString titleBarStyle = "background-color:rgb(255, 255, 255, 100);";
 
 TitleBar::TitleBar(QWidget *parent)
 	: QWidget(parent)
 {
 	ui.setupUi(this);
-	QPixmap pixLogo(":/ScreenRecorder/Asset/Icon/logo.svg");
+
+	setStyleSheet(titleBarStyle);
+
+	QPixmap pixLogo(":/Icon/Asset/Icon/logo.svg");
 	ui.qlabelLogo->setPixmap(pixLogo);
 
 	pWin = this->window();
