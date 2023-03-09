@@ -9,6 +9,12 @@ ScreenRecorder::ScreenRecorder(QWidget *parent)
 {
     ui.setupUi(this);
 
+    // style sheet
+    QString playBtnStyle = "QPushButton{border-image:url(:/ScreenRecorder/Asset/Icon/play.svg)}"
+        "QPushButton::hover{border-image:url(:/ScreenRecorder/Asset/Icon/play_hover.svg)}";
+    QString stopBtnStyle = "QPushButton{border-image:url(:/ScreenRecorder/Asset/Icon/stop.svg)}"
+        "QPushButton::hover{border-image:url(:/ScreenRecorder/Asset/Icon/stop_hover.svg)}";
+
     // title bar
     m_pTitle = new TitleBar(this);
     QHBoxLayout* hBox = new QHBoxLayout(this);
@@ -39,9 +45,9 @@ ScreenRecorder::~ScreenRecorder()
 void ScreenRecorder::on_btnRec_clicked()
 {
     if (!m_isRecording) {
-        ui.btnRec->setText("Stop");
         if (m_pUtilsWrapper->StartRec()) {
             m_pTimer->start(TIME_OUT_MILLISECONDS);
+            ui.btnRec->setStyleSheet(stopBtnStyle);
             m_isRecording = true;
         }
         else {
@@ -49,9 +55,9 @@ void ScreenRecorder::on_btnRec_clicked()
         }
     }
     else {
-        ui.btnRec->setText("Start");
         if (m_pUtilsWrapper->StopRec()) {
             m_pTimer->stop();
+            ui.btnRec->setStyleSheet(playBtnStyle);
             m_isRecording = false;
         }
     }
