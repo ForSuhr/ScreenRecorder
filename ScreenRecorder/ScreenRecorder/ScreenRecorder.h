@@ -1,11 +1,11 @@
 #pragma once
-
 #include <QtWidgets/QWidget>
 #include "ui_ScreenRecorder.h"
 #include "TitleBar.h"
 #include "UtilsWrapper.h"
 #include <memory>
 #include <QTimer>
+
 
 class ScreenRecorder : public QWidget
 {

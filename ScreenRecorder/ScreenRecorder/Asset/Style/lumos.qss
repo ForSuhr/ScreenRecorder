@@ -1,4 +1,33 @@
-QWidget
-{
-	background-color:rgb(233, 233, 233);
+QWidget#ScreenRecorderClass {
+	background-color:rgb(255, 255, 255);
+}
+
+QLabel#qlabelTitle {
+	font-family:"Noto Sans";
+	font-size:14px;
+	color:rgb(0, 0, 0)
+}
+
+QPushButton#btnMin {
+	border-image: url(:/Icon/Asset/Icon/min.svg);
+}
+
+QPushButton::hover#btnMin {
+	border-image: url(:/Icon/Asset/Icon/min_hover.svg);
+}
+
+QPushButton#btnClose {
+	border-image: url(:/Icon/Asset/Icon/close.svg)
+}
+
+QPushButton::hover#btnClose {
+	border-image: url(:/Icon/Asset/Icon/close_hover.svg)
+}
+
+QPushButton#btnRec {
+	border-image: url(:/Icon/Asset/Icon/play.svg)
+}
+
+QPushButton::hover#btnRec {
+	border-image: url(:/Icon/Asset/Icon/play_hover.svg)
 }

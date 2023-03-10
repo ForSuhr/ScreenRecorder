@@ -3,23 +3,21 @@
 #include <QHBoxLayout>
 #include <QFile>
 
+
 #define TIME_OUT_MILLISECONDS 1000
 
 // style sheet
-static QString qssNoxPath = ":/Style/Asset/Style/nox.qss";
 static QString qssLumosPath = ":/Style/Asset/Style/lumos.qss";
-static QString playBtnStyle = "QPushButton{border-radius:48px;border-image:url(:/Icon/Asset/Icon/play.svg)}"
-"QPushButton::hover{border-radius:48px;border-image:url(:/Icon/Asset/Icon/play_hover.svg)}";
-static QString stopBtnStyle = "QPushButton{border-radius:48px;border-image:url(:/Icon/Asset/Icon/stop.svg)}"
-"QPushButton::hover{border-radius:48px;border-image:url(:/Icon/Asset/Icon/stop_hover.svg)}";
+static QString qssNoxPath = ":/Style/Asset/Style/nox.qss";
+static QString playBtnStyle = "QPushButton#btnRec{border-image:url(:/Icon/Asset/Icon/play.svg)};"
+"QPushButton::hover#btnRec{border-image:url(:/Icon/Asset/Icon/play_hover.svg)};";
+static QString stopBtnStyle = "QPushButton#btnRec{border-image:url(:/Icon/Asset/Icon/stop.svg)};"
+"QPushButton::hover#btnRec{border-image:url(:/Icon/Asset/Icon/stop_hover.svg)};";
 
 ScreenRecorder::ScreenRecorder(QWidget *parent)
     : QWidget(parent), m_pUtilsWrapper(new UtilsWrapper)
 {
     ui.setupUi(this);
-
-    // style sheet
-    LoadQSS(qssNoxPath);
 
     // title bar
     m_pTitle = new TitleBar(this);
@@ -34,9 +32,14 @@ ScreenRecorder::ScreenRecorder(QWidget *parent)
 
     // signal-slot
     connect(m_pTimer, &QTimer::timeout, this, &ScreenRecorder::on_timer);
+    connect(m_pTitle->pActLumos, &QAction::triggered, [=] {LoadQSS(qssLumosPath); });
+    connect(m_pTitle->pActNox, &QAction::triggered, [=] {LoadQSS(qssNoxPath); });
 
     // window
     setWindowFlags(Qt::FramelessWindowHint);
+
+    // style sheet
+    LoadQSS(qssLumosPath);
 
     // model initialization
     if (!m_pUtilsWrapper->InitUtils()) {
@@ -47,20 +50,6 @@ ScreenRecorder::ScreenRecorder(QWidget *parent)
 
 ScreenRecorder::~ScreenRecorder()
 {}
-
-void ScreenRecorder::LoadQSS(QString qssPath)
-{
-    QFile file(qssPath);
-    QString qss;
-
-    if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        QString qss = file.readAll();
-    }
-
-    file.close();
-
-    this->setStyleSheet(qss);
-}
 
 void ScreenRecorder::on_btnRec_clicked()
 {
@@ -95,4 +84,18 @@ void ScreenRecorder::on_timer()
 
     string time = std::format("{:02d}:{:02d}:{:02d}", hour, minute, second);
     ui.lcdNumber->display(time.c_str());
+}
+
+void ScreenRecorder::LoadQSS(QString qssPath)
+{
+    QFile file(qssPath);
+    QString qss;
+
+    if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        qss = file.readAll();
+    }
+
+    file.close();
+
+    this->setStyleSheet(qss);
 }

@@ -3,17 +3,22 @@
 #include "TitleBar.h"
 #include <QMouseEvent>
 
-static QString titleBarStyle = "background-color:rgb(255, 255, 255, 100);";
+
 
 TitleBar::TitleBar(QWidget *parent)
 	: QWidget(parent)
 {
 	ui.setupUi(this);
 
-	setStyleSheet(titleBarStyle);
-
 	QPixmap pixLogo(":/Icon/Asset/Icon/logo.svg");
 	ui.qlabelLogo->setPixmap(pixLogo);
+
+	pMenu = new QMenu(this);
+	pActLumos = new QAction("Lumos", this);
+	pActNox = new QAction("Nox", this);
+	pMenu->addAction(pActLumos);
+	pMenu->addAction(pActNox);
+	ui.btnStyle->setMenu(pMenu);
 
 	pWin = this->window();
 }
@@ -37,8 +42,9 @@ void TitleBar::on_btnSet_clicked()
 
 }
 
-void TitleBar::on_btnSkin_clicked()
+void TitleBar::on_btnStyle_clicked()
 {
+	
 }
 
 void TitleBar::on_btnMin_clicked()
@@ -50,3 +56,4 @@ void TitleBar::on_btnClose_clicked()
 {
 	pWin->close();
 }
+

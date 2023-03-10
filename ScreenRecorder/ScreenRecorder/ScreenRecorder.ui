@@ -90,16 +90,7 @@
         </size>
        </property>
        <property name="styleSheet">
-        <string notr="true">QPushButton
-{
-	border-image:url(:/ScreenRecorder/Asset/Icon/play.svg)
-}
-
-QPushButton::hover
-{
-	border-image:url(:/ScreenRecorder/Asset/Icon/play_hover.svg)
-}
-</string>
+        <string notr="true"/>
        </property>
        <property name="text">
         <string/>

@@ -90,12 +90,7 @@
       </size>
      </property>
      <property name="styleSheet">
-      <string notr="true">QLabel
-{
-	font-family:&quot;Noto Sans&quot;;
-	font-size:14px;
-	color:rgb(0, 0, 0)
-}</string>
+      <string notr="true"/>
      </property>
      <property name="text">
       <string>Screen Recorder</string>
@@ -138,7 +133,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QPushButton" name="btnSkin">
+    <widget class="QPushButton" name="btnStyle">
      <property name="minimumSize">
       <size>
        <width>32</width>
@@ -152,7 +147,7 @@
       </size>
      </property>
      <property name="text">
-      <string>skin</string>
+      <string>style</string>
      </property>
     </widget>
    </item>
@@ -183,15 +178,7 @@
       </size>
      </property>
      <property name="styleSheet">
-      <string notr="true">QPushButton
-{
-	border-image:url(:/ScreenRecorder/Asset/Icon/min.svg);
-}
-
-QPushButton::hover
-{
-	border-image:url(:/ScreenRecorder/Asset/Icon/min_hover.svg);
-}</string>
+      <string notr="true"/>
      </property>
      <property name="text">
       <string/>
@@ -231,16 +218,7 @@ QPushButton::hover
       </size>
      </property>
      <property name="styleSheet">
-      <string notr="true">QPushButton
-{
-	border-image:url(:/ScreenRecorder/Asset/Icon/close.svg)
-}
-
-QPushButton::hover
-{
-	border-image:url(:/ScreenRecorder/Asset/Icon/close_hover.svg)
-}
-</string>
+      <string notr="true"/>
      </property>
      <property name="text">
       <string/>
