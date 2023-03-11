@@ -5,38 +5,6 @@
 #include "libavcodec/avcodec.h"
 #include <QDateTime>
 
-#ifdef __APPLE__
-#define INPUT_AUDIO_SOURCE "coreaudio_input_capture"
-#define OUTPUT_AUDIO_SOURCE "coreaudio_output_capture"
-#elif _WIN32
-#define INPUT_AUDIO_SOURCE "wasapi_input_capture"
-#define OUTPUT_AUDIO_SOURCE "wasapi_output_capture"
-#else
-#define INPUT_AUDIO_SOURCE "pulse_input_capture"
-#define OUTPUT_AUDIO_SOURCE "pulse_output_capture"
-#endif
-
-using namespace std;
-
-#define DL_D3D11 "libobs-d3d11.dll"
-#define DL_OPENGL "libobs-opengl.dll"
-#define FPS	60
-#define WIDTH 1920
-#define HEIGHT 1080
-#define VIDEO_ENCODER_ID AV_CODEC_ID_H264
-#define VIDEO_ENCODER_NAME "libx264"
-#define RECORD_OUTPUT_FORMAT "mp4"
-#define RECORD_OUTPUT_FORMAT_MIME "video/mp4"
-#define AUDIO_BITRATE 128 
-#define VIDEO_BITRATE 150
-#define OUT_WIDTH  1920
-#define OUT_HEIGHT 1080
-
-enum SOURCE_CHANNELS {
-	SOURCE_CHANNEL_TRANSITION,
-	SOURCE_CHANNEL_AUDIO_OUTPUT,
-	SOURCE_CHANNEL_AUDIO_INPUT,
-};
 
 static void AddSource(void* _data, obs_scene_t* scene)
 {
@@ -119,6 +87,7 @@ static void ResetAudioDevice(const char* sourceId, const char* deviceId, const c
 	}
 }
 
+
 UtilsWrapper::UtilsWrapper()
 {
 }
@@ -129,10 +98,11 @@ UtilsWrapper::~UtilsWrapper()
 
 bool UtilsWrapper::InitUtils()
 {
-	// start initialization
+	// locale, config
 	string locale = "en-US";
 	string module_config_path = "../config";
 
+	// start initialization
 	if (!obs_initialized()) {
 		if (!obs_startup(locale.c_str(), module_config_path.c_str(), NULL)) {
 			return false;
@@ -159,17 +129,22 @@ bool UtilsWrapper::InitUtils()
 		return false;
 	}
 
-	// setup source
-	if (!CreateSource()) {
+	// setup desktop source
+	if (!SearchSource(REC_DESKTOP)) {
 		return false;
 	}
 
-	//
-	if (!CreateOutputMode()) {
+	// setup window source
+	if (!SearchSource(REC_WINDOW)) {
 		return false;
 	}
 
-	// end initialization
+	// 
+	if (!SetupOutputMode()) {
+		return false;
+	}
+
+	// finish initialization
 	return true;
 }
 
@@ -258,9 +233,16 @@ bool UtilsWrapper::SetupScene()
 	return true;
 }
 
-bool UtilsWrapper::CreateSource()
+bool UtilsWrapper::SearchSource(REC_TYPE rec_type)
 {
-	captureSource = obs_source_create("monitor_capture", "Monitor Capture", NULL, nullptr);
+	if (rec_type == REC_DESKTOP) {
+		captureSource = obs_source_create("desktop_capture", "Desktop Capture", NULL, nullptr);
+
+	}
+	else {
+		captureSource = obs_source_create("window_capture", "Window Capture", NULL, nullptr);
+
+	}
 
 	if (captureSource)
 	{
@@ -272,50 +254,45 @@ bool UtilsWrapper::CreateSource()
 	}
 
 	setting = obs_data_create();
-	obs_data_t* curSetting = obs_source_get_settings(captureSource);
-	obs_data_apply(setting, curSetting);
-	obs_data_release(curSetting);
+	obs_data_t* sourceSetting = obs_source_get_settings(captureSource);
+	obs_data_apply(setting, sourceSetting);
+	obs_data_release(sourceSetting);
 
 	properties = obs_source_properties(captureSource);
 	property = obs_properties_first(properties);
+	
+	m_recObj.clear();
 
 	while (property)
 	{
 		const char* name = obs_property_name(property);
-		if (strcmp(name, "monitor") == 0)
-		{
+		if (NULL == (strcmp(name, "monitor") | strcmp(name, "window"))) {
 			size_t count = obs_property_list_item_count(property);
 			const char* string = nullptr;
 
-			for (size_t i = 0; i < count; i++)
-			{
-				const char* item_name = obs_property_list_item_name(property, i);
-				string = item_name;
-				break;
-			}
+			for (size_t i = 0; i < count; i++) {
+				if (rec_type == REC_DESKTOP) {
+					const char* item_name = obs_property_list_item_name(property, i);
+					string = item_name;
+				}
+				else if (rec_type == REC_WINDOW) {
+					string = obs_property_list_item_string(property, i);
+				}
 
-			if (string)
-			{
-				obs_data_set_string(setting, name, string);
-				obs_source_update(captureSource, setting);
-				break;
+				m_recObj.push_back(string);
 			}
-			else
-			{
-				obs_data_release(setting);
-				return false;
-			}
+		}
+		else {
+			return false;
 		}
 
 		obs_property_next(&property);
 	}
 
-	obs_data_release(setting);
-
 	return true;
 }
 
-bool UtilsWrapper::CreateOutputMode()
+bool UtilsWrapper::SetupOutputMode()
 {
 	if (!output) {
 		output = obs_output_create("ffmpeg_output", "adv_ffmpeg_output", nullptr, nullptr);
@@ -375,6 +352,30 @@ bool UtilsWrapper::SetupFFmpeg()
 	obs_output_update(output, settings);
 
 	obs_data_release(settings);
+
+	return true;
+}
+
+bool UtilsWrapper::SetSource(REC_TYPE rec_type, const char* rec_obj)
+{
+
+	if (rec_obj)
+	{
+		if (rec_type == REC_DESKTOP) {
+			obs_data_set_string(setting, "monitor", rec_obj);
+		}
+		else if (rec_type == REC_WINDOW) {
+			obs_data_set_string(setting, "window", rec_obj);
+		}
+		obs_source_update(captureSource, setting);
+	}
+	else
+	{
+		obs_data_release(setting);
+		return false;
+	}
+
+	obs_data_release(setting);
 
 	return true;
 }
