@@ -3,6 +3,7 @@
 #include "ui_TitleBar.h"
 #include <QMenu>
 
+
 class TitleBar : public QWidget
 {
 	Q_OBJECT

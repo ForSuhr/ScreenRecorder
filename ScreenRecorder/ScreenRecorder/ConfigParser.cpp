@@ -3,21 +3,17 @@
 
 ConfigParser::ConfigParser()
 {
-    m_instance = nullptr;
     settings = new QSettings(CONFIG_PATH, QSettings::IniFormat);
 }
 
 ConfigParser::~ConfigParser()
 {
-    delete m_instance;
     delete settings;
 }
 
-ConfigParser* ConfigParser::getInstance()
+ConfigParser& ConfigParser::getInstance()
 {
-    if (m_instance == nullptr) {
-        m_instance = new ConfigParser();
-    }
+    static ConfigParser m_instance;
     return m_instance;
 }
 
