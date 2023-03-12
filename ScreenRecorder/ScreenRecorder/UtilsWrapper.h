@@ -46,6 +46,12 @@ enum REC_TYPE
 	REC_WINDOW
 };
 
+struct AUDIO_SOURCE
+{
+	bool useOutputAudio;
+	bool useInputAudio;
+};
+
 
 class UtilsWrapper
 {
@@ -54,10 +60,11 @@ public:
 	~UtilsWrapper();
 
 	bool InitUtils();
+	bool SearchSource(REC_TYPE rec_type, REC_OBJ& m_RecObj);
+	bool SetVideoSource(REC_TYPE rec_type, const char* rec_obj);
+	bool SetAudioSource(AUDIO_SOURCE audio_source);
 	bool StartRec();
 	bool StopRec();
-	bool SearchSource(REC_TYPE rec_type, REC_OBJ& m_RecObj);
-	bool SetSource(REC_TYPE rec_type, const char* rec_obj);
 
 private:
 	bool LoadPlugins();
@@ -68,14 +75,12 @@ private:
 	bool SetupFFmpeg();
 
 private:
-	OBSOutput output;
-	obs_source_t* fadeTransition = nullptr;
-	obs_source_t* captureSource = nullptr;
-	obs_properties_t* properties = nullptr;
-	obs_scene_t* scene = nullptr;
-	obs_data_t* setting = nullptr;
-	obs_property_t* property = nullptr;
-	OBSEncoder aacTrack[MAX_AUDIO_MIXES];
-	string aacEncoderID[MAX_AUDIO_MIXES];
+	OBSOutput m_output;
+	obs_source_t* m_fadeTransition = nullptr;
+	obs_source_t* m_captureSource = nullptr;
+	obs_scene_t* m_scene = nullptr;
+	obs_data_t* m_setting = nullptr;
+	OBSEncoder m_aacTrack[MAX_AUDIO_MIXES];
+	string m_aacEncoderID[MAX_AUDIO_MIXES];
 };
 

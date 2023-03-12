@@ -18,16 +18,18 @@ public:
     void LoadQSS(QString qssPath);
 
 public slots:
+    void on_btnSearch_clicked();
     void on_btnRec_clicked();
     void on_timer_timeout();
-    void on_btnSearch_clicked();
 
 private:
     Ui::ScreenRecorderClass ui;
     TitleBar* m_pTitle;
-    std::unique_ptr<UtilsWrapper> m_pUtilsWrapper;
-    QTimer* m_pTimer;
-    REC_OBJ m_recObj;
+    std::unique_ptr<UtilsWrapper> m_ptrUtilsWrapper;
+    QTimer* m_ptrTimer;
+    REC_OBJ m_recMonitorObj;
+    REC_OBJ m_recWindowObj;
+    AUDIO_SOURCE audio_source;
 
     bool m_isRecording = false;
     int m_RecSeconds = 0;

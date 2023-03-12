@@ -128,11 +128,11 @@ bool UtilsWrapper::InitUtils()
 	if (!SetupScene()) {
 		return false;
 	}
-
-	// 
-	//if (!SetupOutputMode()) {
-	//	return false;
-	//}
+	
+	// setup output mode
+	if (!SetupOutputMode()) {
+		return false;
+	}
 
 	// finish initialization
 	return true;
@@ -191,106 +191,36 @@ bool UtilsWrapper::SetupScene()
 			obs_source_t* tr = obs_source_create_private(id, name, NULL);
 
 			if (strcmp(id, "fade_transition") == 0)
-				fadeTransition = tr;
+				m_fadeTransition = tr;
 		}
 	}
 
-	if (!fadeTransition) {
+	if (!m_fadeTransition) {
 		return false;
 	}
 	
-	obs_set_output_source(SOURCE_CHANNEL_TRANSITION, fadeTransition);
-	obs_source_release(fadeTransition);
+	obs_set_output_source(SOURCE_CHANNEL_TRANSITION, m_fadeTransition);
+	obs_source_release(m_fadeTransition);
 
-	scene = obs_scene_create("Default Scene");
+	m_scene = obs_scene_create("Default Scene");
 
-	if (!scene) {
+	if (!m_scene) {
 		return false;
 	}
 
 	obs_source_t* source = obs_get_output_source(SOURCE_CHANNEL_TRANSITION);
-	obs_transition_set(source, obs_scene_get_source(scene));
+	obs_transition_set(source, obs_scene_get_source(m_scene));
 	obs_source_release(source);
-
-	bool hasDesktopAudio = HasAudioDevices(OUTPUT_AUDIO_SOURCE);
-	bool hasInputAudio = HasAudioDevices(INPUT_AUDIO_SOURCE);
-
-	if (hasDesktopAudio)
-		ResetAudioDevice(OUTPUT_AUDIO_SOURCE, "default", "Desktop Audio", SOURCE_CHANNEL_AUDIO_OUTPUT);
-	if (hasInputAudio)
-		ResetAudioDevice(INPUT_AUDIO_SOURCE, "default", "Mic/Aux", SOURCE_CHANNEL_AUDIO_INPUT);
-
-	return true;
-}
-
-bool UtilsWrapper::SearchSource(REC_TYPE rec_type, REC_OBJ& m_RecObj)
-{
-	if (rec_type == REC_MONITOR) {
-		captureSource = obs_source_create("monitor_capture", "Desktop Capture", NULL, nullptr);
-
-	}
-	else if (rec_type == REC_WINDOW) {
-		captureSource = obs_source_create("window_capture", "Window Capture", NULL, nullptr);
-	}
-	else {
-		return false;
-	}
-
-	if (captureSource)
-	{
-		obs_scene_atomic_update(scene, AddSource, captureSource);
-	}
-	else
-	{
-		return false;
-	}
-
-	setting = obs_data_create();
-	obs_data_t* sourceSetting = obs_source_get_settings(captureSource);
-	obs_data_apply(setting, sourceSetting);
-	obs_data_release(sourceSetting);
-
-	properties = obs_source_properties(captureSource);
-	property = obs_properties_first(properties);
-
-	while (property)
-	{
-		const char* name = obs_property_name(property);
-		if (strcmp(name, "monitor") ^ strcmp(name, "window")) {
-			size_t count = obs_property_list_item_count(property);
-			const char* string = nullptr;
-
-			for (size_t i = 0; i < count; i++) {
-				if (rec_type == REC_MONITOR) {
-					const char* item_name = obs_property_list_item_name(property, i);
-					string = item_name;
-				}
-				else if (rec_type == REC_WINDOW) {
-					string = obs_property_list_item_string(property, i);
-				}
-				else {
-					return false;
-				}
-
-				m_RecObj.push_back(string);
-			}
-		}
-		else {
-			return false;
-		}
-
-		obs_property_next(&property);
-	}
 
 	return true;
 }
 
 bool UtilsWrapper::SetupOutputMode()
 {
-	if (!output) {
-		output = obs_output_create("ffmpeg_output", "adv_ffmpeg_output", nullptr, nullptr);
+	if (!m_output) {
+		m_output = obs_output_create("ffmpeg_output", "adv_ffmpeg_output", nullptr, nullptr);
 	
-		if (!output) {
+		if (!m_output) {
 			return false;
 		}
 	}
@@ -299,11 +229,11 @@ bool UtilsWrapper::SetupOutputMode()
 		char name[9];
 		sprintf(name, "adv_aac%d", i);
 
-		if (!CreateAACEncoder(aacTrack[i], aacEncoderID[i], name, i)) {
+		if (!CreateAACEncoder(m_aacTrack[i], m_aacEncoderID[i], name, i)) {
 			return false;
 		}
 
-		obs_encoder_set_audio(aacTrack[i], obs_get_audio());
+		obs_encoder_set_audio(m_aacTrack[i], obs_get_audio());
 	}
 
 	return true;
@@ -340,35 +270,116 @@ bool UtilsWrapper::SetupFFmpeg()
 	obs_data_set_int(settings, "scale_width", OUT_WIDTH);
 	obs_data_set_int(settings, "scale_height", OUT_HEIGHT);
 
-	obs_output_set_mixer(output, 1);
-	obs_output_set_media(output, obs_get_video(), obs_get_audio());
-	obs_output_update(output, settings);
+	obs_output_set_mixer(m_output, 1);
+	obs_output_set_media(m_output, obs_get_video(), obs_get_audio());
+	obs_output_update(m_output, settings);
 
 	obs_data_release(settings);
 
 	return true;
 }
 
-bool UtilsWrapper::SetSource(REC_TYPE rec_type, const char* rec_obj)
+
+bool UtilsWrapper::SearchSource(REC_TYPE rec_type, REC_OBJ& m_RecObj)
+{
+	if (rec_type == REC_MONITOR) {
+		m_captureSource = obs_source_create("monitor_capture", "Desktop Capture", NULL, nullptr);
+
+	}
+	else if (rec_type == REC_WINDOW) {
+		m_captureSource = obs_source_create("window_capture", "Window Capture", NULL, nullptr);
+	}
+	else {
+		return false;
+	}
+
+	if (m_captureSource)
+	{
+		obs_scene_atomic_update(m_scene, AddSource, m_captureSource);
+	}
+	else
+	{
+		return false;
+	}
+
+	m_setting = obs_data_create();
+	obs_data_t* sourceSetting = obs_source_get_settings(m_captureSource);
+	obs_data_apply(m_setting, sourceSetting);
+	obs_data_release(sourceSetting);
+
+	obs_properties_t* properties = obs_source_properties(m_captureSource);
+	obs_property_t* property = obs_properties_first(properties);
+
+	while (property)
+	{
+		const char* name = obs_property_name(property);
+		if (strcmp(name, "monitor") ^ strcmp(name, "window")) {
+			size_t count = obs_property_list_item_count(property);
+			const char* string = nullptr;
+
+			for (size_t i = 0; i < count; i++) {
+				if (rec_type == REC_MONITOR) {
+					const char* item_name = obs_property_list_item_name(property, i);
+					string = item_name;
+				}
+				else if (rec_type == REC_WINDOW) {
+					string = obs_property_list_item_string(property, i);
+				}
+				else {
+					return false;
+				}
+
+				m_RecObj.push_back(string);
+			}
+		}
+		else {
+			return false;
+		}
+
+		obs_property_next(&property);
+	}
+
+	return true;
+}
+
+bool UtilsWrapper::SetVideoSource(REC_TYPE rec_type, const char* rec_obj)
 {
 
 	if (rec_obj)
 	{
 		if (rec_type == REC_MONITOR) {
-			obs_data_set_string(setting, "monitor", rec_obj);
+			obs_data_set_string(m_setting, "monitor", rec_obj);
 		}
 		else if (rec_type == REC_WINDOW) {
-			obs_data_set_string(setting, "window", rec_obj);
+			obs_data_set_string(m_setting, "window", rec_obj);
 		}
-		obs_source_update(captureSource, setting);
+		obs_source_update(m_captureSource, m_setting);
 	}
 	else
 	{
-		obs_data_release(setting);
+		obs_data_release(m_setting);
 		return false;
 	}
 
-	obs_data_release(setting);
+	obs_data_release(m_setting);
+
+	return true;
+}
+
+bool UtilsWrapper::SetAudioSource(AUDIO_SOURCE audio_source)
+{
+	bool hasOutputAudio = HasAudioDevices(OUTPUT_AUDIO_SOURCE);
+	bool hasInputAudio = HasAudioDevices(INPUT_AUDIO_SOURCE);
+
+	const char* deviceId = "default";
+	
+	if (audio_source.useOutputAudio) deviceId = "default"; 
+	else deviceId = "disable";
+	if (hasOutputAudio) ResetAudioDevice(OUTPUT_AUDIO_SOURCE, deviceId, "Desktop Audio", SOURCE_CHANNEL_AUDIO_OUTPUT);
+
+	if (audio_source.useInputAudio) deviceId = "default";
+	else deviceId = "disable";
+	if (hasInputAudio) ResetAudioDevice(INPUT_AUDIO_SOURCE, deviceId, "Mic/Aux", SOURCE_CHANNEL_AUDIO_INPUT);
 
 	return true;
 }
@@ -380,7 +391,7 @@ bool UtilsWrapper::StartRec()
 		return false;
 	}
 
-	if (!obs_output_start(output)) {
+	if (!obs_output_start(m_output)) {
 		return false;
 	};
 	return true;
@@ -388,6 +399,6 @@ bool UtilsWrapper::StartRec()
 
 bool UtilsWrapper::StopRec()
 {
-	obs_output_stop(output);
+	obs_output_stop(m_output);
 	return true;
 }

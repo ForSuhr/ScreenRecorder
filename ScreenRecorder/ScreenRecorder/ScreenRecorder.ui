@@ -115,16 +115,16 @@
       </widget>
      </item>
      <item>
-      <widget class="QCheckBox" name="checkBox">
+      <widget class="QCheckBox" name="checkBoxOutputAudio">
        <property name="text">
-        <string>CheckBox</string>
+        <string>Monitor Sound</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QCheckBox" name="checkBox_2">
+      <widget class="QCheckBox" name="checkBoxInputAudio">
        <property name="text">
-        <string>CheckBox</string>
+        <string>Mic/Aux Sound</string>
        </property>
       </widget>
      </item>
