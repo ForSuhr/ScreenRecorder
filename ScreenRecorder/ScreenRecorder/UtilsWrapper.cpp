@@ -129,20 +129,10 @@ bool UtilsWrapper::InitUtils()
 		return false;
 	}
 
-	// setup desktop source
-	if (!SearchSource(REC_DESKTOP)) {
-		return false;
-	}
-
-	// setup window source
-	if (!SearchSource(REC_WINDOW)) {
-		return false;
-	}
-
 	// 
-	if (!SetupOutputMode()) {
-		return false;
-	}
+	//if (!SetupOutputMode()) {
+	//	return false;
+	//}
 
 	// finish initialization
 	return true;
@@ -233,15 +223,17 @@ bool UtilsWrapper::SetupScene()
 	return true;
 }
 
-bool UtilsWrapper::SearchSource(REC_TYPE rec_type)
+bool UtilsWrapper::SearchSource(REC_TYPE rec_type, REC_OBJ& m_RecObj)
 {
-	if (rec_type == REC_DESKTOP) {
-		captureSource = obs_source_create("desktop_capture", "Desktop Capture", NULL, nullptr);
+	if (rec_type == REC_MONITOR) {
+		captureSource = obs_source_create("monitor_capture", "Desktop Capture", NULL, nullptr);
 
 	}
-	else {
+	else if (rec_type == REC_WINDOW) {
 		captureSource = obs_source_create("window_capture", "Window Capture", NULL, nullptr);
-
+	}
+	else {
+		return false;
 	}
 
 	if (captureSource)
@@ -260,26 +252,27 @@ bool UtilsWrapper::SearchSource(REC_TYPE rec_type)
 
 	properties = obs_source_properties(captureSource);
 	property = obs_properties_first(properties);
-	
-	m_recObj.clear();
 
 	while (property)
 	{
 		const char* name = obs_property_name(property);
-		if (NULL == (strcmp(name, "monitor") | strcmp(name, "window"))) {
+		if (strcmp(name, "monitor") ^ strcmp(name, "window")) {
 			size_t count = obs_property_list_item_count(property);
 			const char* string = nullptr;
 
 			for (size_t i = 0; i < count; i++) {
-				if (rec_type == REC_DESKTOP) {
+				if (rec_type == REC_MONITOR) {
 					const char* item_name = obs_property_list_item_name(property, i);
 					string = item_name;
 				}
 				else if (rec_type == REC_WINDOW) {
 					string = obs_property_list_item_string(property, i);
 				}
+				else {
+					return false;
+				}
 
-				m_recObj.push_back(string);
+				m_RecObj.push_back(string);
 			}
 		}
 		else {
@@ -361,7 +354,7 @@ bool UtilsWrapper::SetSource(REC_TYPE rec_type, const char* rec_obj)
 
 	if (rec_obj)
 	{
-		if (rec_type == REC_DESKTOP) {
+		if (rec_type == REC_MONITOR) {
 			obs_data_set_string(setting, "monitor", rec_obj);
 		}
 		else if (rec_type == REC_WINDOW) {

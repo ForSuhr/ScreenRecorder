@@ -19,13 +19,15 @@ public:
 
 public slots:
     void on_btnRec_clicked();
-    void on_timer();
+    void on_timer_timeout();
+    void on_btnSearch_clicked();
 
 private:
     Ui::ScreenRecorderClass ui;
     TitleBar* m_pTitle;
     std::unique_ptr<UtilsWrapper> m_pUtilsWrapper;
     QTimer* m_pTimer;
+    REC_OBJ m_recObj;
 
     bool m_isRecording = false;
     int m_RecSeconds = 0;

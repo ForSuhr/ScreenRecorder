@@ -42,7 +42,7 @@ enum SOURCE_CHANNELS {
 
 enum REC_TYPE
 {
-	REC_DESKTOP,
+	REC_MONITOR,
 	REC_WINDOW
 };
 
@@ -56,27 +56,26 @@ public:
 	bool InitUtils();
 	bool StartRec();
 	bool StopRec();
+	bool SearchSource(REC_TYPE rec_type, REC_OBJ& m_RecObj);
+	bool SetSource(REC_TYPE rec_type, const char* rec_obj);
 
 private:
 	bool LoadPlugins();
 	bool SetupAudio();
 	bool SetupVideo();
 	bool SetupScene();
-	bool SearchSource(REC_TYPE rec_type);
 	bool SetupOutputMode();
 	bool SetupFFmpeg();
-	bool SetSource(REC_TYPE rec_type, const char* rec_obj);
 
 private:
 	OBSOutput output;
 	obs_source_t* fadeTransition = nullptr;
-	obs_scene_t* scene = nullptr;
 	obs_source_t* captureSource = nullptr;
 	obs_properties_t* properties = nullptr;
+	obs_scene_t* scene = nullptr;
 	obs_data_t* setting = nullptr;
 	obs_property_t* property = nullptr;
 	OBSEncoder aacTrack[MAX_AUDIO_MIXES];
 	string aacEncoderID[MAX_AUDIO_MIXES];
-	REC_OBJ m_recObj;
 };
 

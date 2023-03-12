@@ -31,7 +31,7 @@ ScreenRecorder::ScreenRecorder(QWidget *parent)
     m_pTimer = new QTimer(this);
 
     // signal-slot
-    connect(m_pTimer, &QTimer::timeout, this, &ScreenRecorder::on_timer);
+    connect(m_pTimer, &QTimer::timeout, this, &ScreenRecorder::on_timer_timeout);
     connect(m_pTitle->pActLumos, &QAction::triggered, [=] {LoadQSS(qssLumosPath); });
     connect(m_pTitle->pActNox, &QAction::triggered, [=] {LoadQSS(qssNoxPath); });
 
@@ -74,7 +74,7 @@ void ScreenRecorder::on_btnRec_clicked()
     }
 }
 
-void ScreenRecorder::on_timer()
+void ScreenRecorder::on_timer_timeout()
 {
     m_RecSeconds++;
 
@@ -85,6 +85,20 @@ void ScreenRecorder::on_timer()
     string time = std::format("{:02d}:{:02d}:{:02d}", hour, minute, second);
     ui.lcdNumber->display(time.c_str());
 }
+
+void ScreenRecorder::on_btnSearch_clicked()
+{
+    m_recObj.clear();
+    m_pUtilsWrapper->SearchSource(REC_MONITOR, m_recObj);
+    m_pUtilsWrapper->SearchSource(REC_WINDOW, m_recObj);
+
+    ui.comboBoxRecObj->clear();
+    for (const string& str : m_recObj) {
+        ui.comboBoxRecObj->addItem(QString::fromStdString(str));
+    }
+}
+
+
 
 void ScreenRecorder::LoadQSS(QString qssPath)
 {
