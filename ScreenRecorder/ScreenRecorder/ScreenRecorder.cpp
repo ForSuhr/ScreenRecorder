@@ -1,7 +1,8 @@
+#pragma comment (lib, "user32.lib")
 #include "ScreenRecorder.h"
 #include <QMessageBox>
-#include <QVBoxLayout>
 #include <QFile>
+#include <QMouseEvent>
 #include "Helper.h"
 
 
@@ -20,24 +21,30 @@ ScreenRecorder::ScreenRecorder(QWidget *parent)
 {
     ui.setupUi(this);
 
-    // title bar
-    m_pTitle = new TitleBar(this);
-    QVBoxLayout* vBox = new QVBoxLayout(this);
-    m_pTitle->setFixedWidth(this->width());
-    //vBox->addWidget(m_pTitle, 0, Qt::AlignTop);
-    vBox->addWidget(m_pTitle);
-
     // widgets
+    QPixmap pixLogo(":/Icon/Asset/Icon/logo.svg");
+    ui.qlabelLogo->setPixmap(pixLogo);
+
+    pMenu = new QMenu(this);
+    pActLumos = new QAction("Lumos", this);
+    pActNox = new QAction("Nox", this);
+    pMenu->addAction(pActLumos);
+    pMenu->addAction(pActNox);
+    ui.btnStyle->setMenu(pMenu);
+
     ui.lcdNumber->setDigitCount(8); // note that the default digit number is 5, this number can be access by "int digitCount()"
     ui.lcdNumber->display("00:00:00");
     m_ptrTimer = new QTimer(this);
     ui.checkBoxOutputAudio->setChecked(true);
     ui.checkBoxInputAudio->setChecked(false);
 
+    // get the window instance
+    pWin = this->window();
+
     // signal-slot
     connect(m_ptrTimer, &QTimer::timeout, this, &ScreenRecorder::on_timer_timeout);
-    connect(m_pTitle->pActLumos, &QAction::triggered, [=] {LoadQSS(qssLumosPath); });
-    connect(m_pTitle->pActNox, &QAction::triggered, [=] {LoadQSS(qssNoxPath); });
+    connect(pActLumos, &QAction::triggered, [=] {LoadQSS(qssLumosPath); });
+    connect(pActNox, &QAction::triggered, [=] {LoadQSS(qssNoxPath); });
 
     // window
     setWindowFlags(Qt::FramelessWindowHint);
@@ -154,4 +161,35 @@ void ScreenRecorder::LoadQSS(QString qssPath)
     file.close();
 
     this->setStyleSheet(qss);
+}
+
+void ScreenRecorder::mousePressEvent(QMouseEvent* event)
+{
+    if (ui.titleBarWidget && ui.titleBarWidget->underMouse()) {
+        if (ReleaseCapture()) {
+            if (pWin->isTopLevel()) {
+                SendMessage(HWND(pWin->winId()), WM_SYSCOMMAND, SC_MOVE + HTCAPTION, NULL);
+            }
+        }
+    }
+}
+
+void ScreenRecorder::on_btnSet_clicked()
+{
+
+}
+
+void ScreenRecorder::on_btnStyle_clicked()
+{
+
+}
+
+void ScreenRecorder::on_btnMin_clicked()
+{
+    pWin->showMinimized();
+}
+
+void ScreenRecorder::on_btnClose_clicked()
+{
+    pWin->close();
 }

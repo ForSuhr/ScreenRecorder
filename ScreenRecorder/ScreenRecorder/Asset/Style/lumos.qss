@@ -1,13 +1,11 @@
 /* unique */
 
-QWidget#ScreenRecorderClass {
+QWidget#mainWidget {
 	background-color:rgb(255, 255, 255);
-	border-radius: 10px;
 }
 
-QWidget#TitleBarClass {
-	background-color:rgb(175, 154, 133);
-	border-radius: 12px;
+QWidget#titleBarWidget {
+	background-color:rgb(200, 195, 190);
 }
 
 QLabel#qlabelTitle {

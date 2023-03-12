@@ -95,17 +95,14 @@
   <ItemGroup>
     <ClCompile Include="ConfigParser.cpp" />
     <ClCompile Include="Helper.cpp" />
-    <ClCompile Include="TitleBar.cpp" />
     <ClCompile Include="UtilsWrapper.cpp" />
     <QtRcc Include="ScreenRecorder.qrc" />
     <QtUic Include="ScreenRecorder.ui" />
     <QtMoc Include="ScreenRecorder.h" />
     <ClCompile Include="ScreenRecorder.cpp" />
     <ClCompile Include="main.cpp" />
-    <QtUic Include="TitleBar.ui" />
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="TitleBar.h" />
     <ClInclude Include="ConfigParser.h" />
     <ClInclude Include="Helper.h" />
     <ClInclude Include="UtilsWrapper.h" />
