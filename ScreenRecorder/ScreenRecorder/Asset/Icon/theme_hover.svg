@@ -2,8 +2,8 @@
 <svg
    viewBox="0 0 32 32"
    version="1.1"
-   id="svg4"
-   sodipodi:docname="min.svg"
+   id="svg426"
+   sodipodi:docname="theme_hover.svg"
    inkscape:version="1.2.2 (732a01da63, 2022-12-09)"
    width="32"
    height="32"
@@ -12,9 +12,9 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:svg="http://www.w3.org/2000/svg">
   <defs
-     id="defs8" />
+     id="defs430" />
   <sodipodi:namedview
-     id="namedview6"
+     id="namedview428"
      pagecolor="#505050"
      bordercolor="#eeeeee"
      borderopacity="1"
@@ -24,17 +24,17 @@
      inkscape:deskcolor="#505050"
      showgrid="false"
      inkscape:zoom="13.078125"
-     inkscape:cx="11.469534"
-     inkscape:cy="16.363202"
+     inkscape:cx="21.715652"
+     inkscape:cy="8.9462367"
      inkscape:window-width="1920"
      inkscape:window-height="1017"
      inkscape:window-x="-8"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
-     inkscape:current-layer="svg4" />
+     inkscape:current-layer="svg426" />
   <!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
   <path
-     d="m 29,16 c 0,1.10625 -0.89375,2 -2,2 H 5 C 3.89375,18 3,17.10625 3,16 3,14.89375 3.89375,14 5,14 h 22 c 1.10625,0 2,0.89375 2,2 z"
-     id="path2"
-     style="fill:#808080;stroke-width:0.0625" />
+     d="m 30,16 c 0,0.04922 0,0.09844 0,0.147656 C 29.978125,18.14375 28.1625,19.5 26.166406,19.5 H 20.8125 c -1.449219,0 -2.625,1.175781 -2.625,2.625 0,0.185937 0.02188,0.366406 0.05469,0.541406 0.114844,0.557813 0.355469,1.09375 0.590625,1.635156 0.333594,0.754688 0.661719,1.503907 0.661719,2.296875 0,1.739063 -1.18125,3.319532 -2.920312,3.390625 C 16.382813,29.994531 16.191406,30 15.994531,30 8.2671875,30 2,23.732812 2,16 2,8.2671875 8.2671875,2 16,2 23.732812,2 30,8.2671875 30,16 Z M 9,17.75 a 1.75,1.75 0 1 0 -3.5,0 1.75,1.75 0 1 0 3.5,0 z M 9,12.5 A 1.75,1.75 0 1 0 9,9 1.75,1.75 0 1 0 9,12.5 Z m 8.75,-5.25 a 1.75,1.75 0 1 0 -3.5,0 1.75,1.75 0 1 0 3.5,0 z M 23,12.5 a 1.75,1.75 0 1 0 0,-3.5 1.75,1.75 0 1 0 0,3.5 z"
+     id="path424"
+     style="fill:#008080;stroke-width:0.0546875" />
 </svg>

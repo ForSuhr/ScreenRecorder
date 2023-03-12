@@ -1,5 +1,13 @@
+/* unique */
+
 QWidget#ScreenRecorderClass {
 	background-color:rgb(255, 255, 255);
+	border-radius: 10px;
+}
+
+QWidget#TitleBarClass {
+	background-color:rgb(175, 154, 133);
+	border-radius: 12px;
 }
 
 QLabel#qlabelTitle {
@@ -8,12 +16,44 @@ QLabel#qlabelTitle {
 	color:rgb(0, 0, 0)
 }
 
+QCheckBox {
+	font-family:"Noto Sans";
+	font-size:12px;
+	color:rgb(0, 0, 0)
+}
+
+/* shared */
+
+QPushButton#btnSet {
+	border-image: url(:/Icon/Asset/Icon/settings.svg);
+}
+
+QPushButton::hover#btnSet {
+	border-image: url(:/Icon/Asset/Icon/settings_hover.svg);
+}
+
+QPushButton#btnStyle {
+	border-image: url(:/Icon/Asset/Icon/theme.svg);
+}
+
+QPushButton::hover#btnStyle {
+	border-image: url(:/Icon/Asset/Icon/theme_hover.svg);
+}
+
 QPushButton#btnMin {
 	border-image: url(:/Icon/Asset/Icon/min.svg);
 }
 
 QPushButton::hover#btnMin {
 	border-image: url(:/Icon/Asset/Icon/min_hover.svg);
+}
+
+QPushButton#btnTray {
+	border-image: url(:/Icon/Asset/Icon/tray.svg)
+}
+
+QPushButton::hover#btnTray {
+	border-image: url(:/Icon/Asset/Icon/tray_hover.svg)
 }
 
 QPushButton#btnClose {
@@ -30,4 +70,12 @@ QPushButton#btnRec {
 
 QPushButton::hover#btnRec {
 	border-image: url(:/Icon/Asset/Icon/play_hover.svg)
+}
+
+QPushButton#btnSearch {
+	border-image: url(:/Icon/Asset/Icon/refresh.svg)
+}
+
+QPushButton::hover#btnSearch {
+	border-image: url(:/Icon/Asset/Icon/refresh_hover.svg)
 }

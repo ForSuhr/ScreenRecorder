@@ -1,6 +1,6 @@
 #include "ScreenRecorder.h"
 #include <QMessageBox>
-#include <QHBoxLayout>
+#include <QVBoxLayout>
 #include <QFile>
 #include "Helper.h"
 
@@ -22,9 +22,10 @@ ScreenRecorder::ScreenRecorder(QWidget *parent)
 
     // title bar
     m_pTitle = new TitleBar(this);
-    QHBoxLayout* hBox = new QHBoxLayout(this);
+    QVBoxLayout* vBox = new QVBoxLayout(this);
     m_pTitle->setFixedWidth(this->width());
-    hBox->addWidget(m_pTitle, 0, Qt::AlignTop);
+    //vBox->addWidget(m_pTitle, 0, Qt::AlignTop);
+    vBox->addWidget(m_pTitle);
 
     // widgets
     ui.lcdNumber->setDigitCount(8); // note that the default digit number is 5, this number can be access by "int digitCount()"

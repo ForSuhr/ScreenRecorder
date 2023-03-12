@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
-
 <svg
-   width="32"
-   height="32"
    viewBox="0 0 32 32"
    version="1.1"
-   id="svg5"
-   inkscape:version="1.2.2 (732a01da63, 2022-12-09)"
+   id="svg4"
    sodipodi:docname="close.svg"
+   inkscape:version="1.2.2 (732a01da63, 2022-12-09)"
+   inkscape:export-filename="close.svg"
+   inkscape:export-xdpi="10.3"
+   inkscape:export-ydpi="10.3"
+   width="32"
+   height="32"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs8" />
   <sodipodi:namedview
-     id="namedview7"
+     id="namedview6"
      pagecolor="#505050"
      bordercolor="#eeeeee"
      borderopacity="1"
@@ -22,47 +25,22 @@
      inkscape:pageopacity="0"
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#505050"
-     inkscape:document-units="px"
      showgrid="false"
-     showguides="false"
-     inkscape:zoom="12.330174"
-     inkscape:cx="21.938051"
-     inkscape:cy="15.814861"
+     inkscape:zoom="13.078125"
+     inkscape:cx="28.826762"
+     inkscape:cy="8.7933094"
      inkscape:window-width="1920"
      inkscape:window-height="1017"
      inkscape:window-x="-8"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
-     inkscape:current-layer="layer1" />
-  <defs
-     id="defs2" />
-  <g
-     inkscape:label="Layer 1"
-     inkscape:groupmode="layer"
-     id="layer1">
-    <g
-       id="g168"
-       transform="matrix(0.79242372,0,0,0.76412287,-3.1507544,-1.9667986)">
-      <rect
-         style="fill:#000000;stroke-width:0.709513"
-         id="rect175"
-         width="48"
-         height="3"
-         x="10.177746"
-         y="-1.5000002"
-         rx="1.0828574"
-         ry="0.75045413"
-         transform="rotate(45)" />
-      <rect
-         style="fill:#000000;stroke-width:0.709513"
-         id="rect5291"
-         width="48"
-         height="3"
-         x="-24"
-         y="32.677746"
-         rx="1.0828574"
-         ry="0.75045413"
-         transform="matrix(-0.70710678,0.70710678,0.70710678,0.70710678,0,0)" />
-    </g>
-  </g>
+     inkscape:current-layer="svg4" />
+  <!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
+  <path
+     d="m 28.230517,7.4402642 c 1.015148,-1.0151537 1.015148,-2.663753 0,-3.6789018 -1.015149,-1.0151499 -2.663751,-1.0151499 -3.678901,0 L 16,12.321099 7.4402622,3.7694833 c -1.0151489,-1.015149 -2.663751,-1.015149 -3.6789,0 -1.0151496,1.0151489 -1.0151496,2.6637522 0,3.6788979 l 8.5597368,8.5516198 -8.5516158,8.559737 c -1.0151489,1.015154 -1.0151489,2.663749 0,3.678903 1.0151489,1.015145 2.6637512,1.015145 3.6789008,0 L 16,19.678904 l 8.559737,8.551612 c 1.015149,1.015154 2.663751,1.015154 3.6789,0 1.015151,-1.015146 1.015151,-2.663749 0,-3.678895 L 19.6789,16.000001 Z"
+     id="path2"
+     style="fill:#808080;stroke-width:0.081212"
+     inkscape:export-filename="..\..\..\..\..\..\Users\cjdzh\Desktop\path2.svg"
+     inkscape:export-xdpi="9.5955009"
+     inkscape:export-ydpi="9.5955009" />
 </svg>
