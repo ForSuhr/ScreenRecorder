@@ -93,6 +93,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ConfigParser.cpp" />
     <ClCompile Include="Helper.cpp" />
     <ClCompile Include="TitleBar.cpp" />
     <ClCompile Include="UtilsWrapper.cpp" />
@@ -105,8 +106,12 @@
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="TitleBar.h" />
+    <ClInclude Include="ConfigParser.h" />
     <ClInclude Include="Helper.h" />
     <ClInclude Include="UtilsWrapper.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="logo.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

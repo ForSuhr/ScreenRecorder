@@ -5,6 +5,7 @@
 #include "UtilsWrapper.h"
 #include <memory>
 #include <QTimer>
+#include <QSystemTrayIcon>
 
 
 class ScreenRecorder : public QWidget
@@ -27,6 +28,7 @@ private:
     TitleBar* m_pTitle;
     std::unique_ptr<UtilsWrapper> m_ptrUtilsWrapper;
     QTimer* m_ptrTimer;
+    QSystemTrayIcon* m_systemTray;
     REC_OBJ m_recMonitorObj;
     REC_OBJ m_recWindowObj;
     AUDIO_SOURCE audio_source;
