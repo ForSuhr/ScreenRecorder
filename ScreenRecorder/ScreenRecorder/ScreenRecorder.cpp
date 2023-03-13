@@ -3,6 +3,9 @@
 #include <QMessageBox>
 #include <QFile>
 #include <QMouseEvent>
+#include <QScreen>
+#include <QRect>
+#include <QPropertyAnimation>
 #include "Helper.h"
 
 
@@ -45,6 +48,9 @@ ScreenRecorder::ScreenRecorder(QWidget *parent)
     connect(m_ptrTimer, &QTimer::timeout, this, &ScreenRecorder::on_timer_timeout);
     connect(pActLumos, &QAction::triggered, [=] {LoadQSS(qssLumosPath); });
     connect(pActNox, &QAction::triggered, [=] {LoadQSS(qssNoxPath); });
+
+    // event filter
+    installEventFilter(this);
 
     // window
     setWindowFlags(Qt::FramelessWindowHint);
@@ -192,4 +198,100 @@ void ScreenRecorder::on_btnMin_clicked()
 void ScreenRecorder::on_btnClose_clicked()
 {
     pWin->close();
+}
+
+bool ScreenRecorder::eventFilter(QObject* obj, QEvent* event)
+{
+    int residualPixel = 2;
+    int animationDuration = 200;
+
+    QScreen* primaryScreen = QGuiApplication::primaryScreen();
+    QRect screenRect = primaryScreen->availableGeometry();
+    QRect windowRect = frameGeometry();
+
+    // check if the window is at the edge of the screen
+    if (event->type() == QEvent::Move) {
+        m_winPos.atTopEdge = (windowRect.top() == screenRect.top());
+        m_winPos.atLeftEdge = (windowRect.left() == screenRect.left());
+        m_winPos.atRightEdge = (windowRect.right() == screenRect.right());
+    }
+
+    // prevent the window move outside the screen
+    if (event->type() == QEvent::MouseButtonRelease) {
+        if (windowRect.left() < screenRect.left()) {
+            move(screenRect.left(), windowRect.y());
+        }
+
+        if (windowRect.right() > screenRect.right()) {
+            move(screenRect.right() - windowRect.right() + windowRect.left(), windowRect.y());
+        }
+    }
+
+    if (m_winState.isHidedAtTop && event->type() == QEvent::Enter) {
+        QRect windowRect = frameGeometry();
+        QPropertyAnimation* posAnimation = new QPropertyAnimation(this, "pos");
+        posAnimation->setDuration(animationDuration);
+        posAnimation->setStartValue(windowRect.topLeft());
+        posAnimation->setEndValue(QPoint(windowRect.x(), 0));
+        posAnimation->start(QAbstractAnimation::DeleteWhenStopped);
+
+        m_winState.isHidedAtTop = false;
+    }
+
+    if (m_winPos.atTopEdge && event->type() == QEvent::Leave) {
+        QPropertyAnimation* posAnimation = new QPropertyAnimation(this, "pos");
+        posAnimation->setDuration(animationDuration);
+        posAnimation->setStartValue(windowRect.topLeft());
+        posAnimation->setEndValue(QPoint(windowRect.x(), residualPixel - windowRect.bottomLeft().y()));
+        posAnimation->start(QAbstractAnimation::DeleteWhenStopped);
+
+        m_winPos.atTopEdge = false;
+        m_winState.isHidedAtTop = true;
+    }
+
+    if (m_winState.isHidedAtLeft && event->type() == QEvent::Enter) {
+        QRect windowRect = frameGeometry();
+        QPropertyAnimation* posAnimation = new QPropertyAnimation(this, "pos");
+        posAnimation->setDuration(animationDuration);
+        posAnimation->setStartValue(windowRect.topLeft());
+        posAnimation->setEndValue(QPoint(0, windowRect.y()));
+        posAnimation->start(QAbstractAnimation::DeleteWhenStopped);
+
+        m_winState.isHidedAtLeft = false;
+    }
+
+    if (m_winPos.atLeftEdge && event->type() == QEvent::Leave) {
+        QPropertyAnimation* posAnimation = new QPropertyAnimation(this, "pos");
+        posAnimation->setDuration(animationDuration);
+        posAnimation->setStartValue(windowRect.topLeft());
+        posAnimation->setEndValue(QPoint(residualPixel - windowRect.right(), windowRect.y()));
+        posAnimation->start(QAbstractAnimation::DeleteWhenStopped);
+
+        m_winPos.atLeftEdge = false;
+        m_winState.isHidedAtLeft = true;
+    }
+
+    if (m_winState.isHidedAtRight && event->type() == QEvent::Enter) {
+        QRect windowRect = frameGeometry();
+        QPropertyAnimation* posAnimation = new QPropertyAnimation(this, "pos");
+        posAnimation->setDuration(animationDuration);
+        posAnimation->setStartValue(windowRect.topLeft());
+        posAnimation->setEndValue(QPoint(screenRect.right()-windowRect.right()+windowRect.left(), windowRect.y()));
+        posAnimation->start(QAbstractAnimation::DeleteWhenStopped);
+
+        m_winState.isHidedAtRight = false;
+    }
+
+    if (m_winPos.atRightEdge && event->type() == QEvent::Leave) {
+        QPropertyAnimation* posAnimation = new QPropertyAnimation(this, "pos");
+        posAnimation->setDuration(animationDuration);
+        posAnimation->setStartValue(windowRect.topLeft());
+        posAnimation->setEndValue(QPoint(screenRect.right()-residualPixel, windowRect.y()));
+        posAnimation->start(QAbstractAnimation::DeleteWhenStopped);
+
+        m_winPos.atRightEdge = false;
+        m_winState.isHidedAtRight = true;
+    }
+
+    return QWidget::eventFilter(obj, event);
 }

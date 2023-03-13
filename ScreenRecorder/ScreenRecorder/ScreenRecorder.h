@@ -8,6 +8,18 @@
 #include <QSystemTrayIcon>
 #include <QMenu>
 
+struct WINDOW_POS {
+    bool atTopEdge = false;
+    bool atLeftEdge = false;
+    bool atRightEdge = false;
+};
+
+struct WINDOW_STATE {
+    bool isHidedAtTop = false;
+    bool isHidedAtLeft = false;
+    bool isHidedAtRight = false;
+};
+
 
 class ScreenRecorder : public QWidget
 {
@@ -32,6 +44,7 @@ public slots:
 
 protected:
     void mousePressEvent(QMouseEvent* event);
+    bool eventFilter(QObject* obj, QEvent* event) override;
 
 private:
     Ui::ScreenRecorderClass ui;
@@ -46,4 +59,6 @@ private:
 
     bool m_isRecording = false;
     int m_RecSeconds = 0;
+    WINDOW_POS m_winPos;
+    WINDOW_STATE m_winState;
 };
