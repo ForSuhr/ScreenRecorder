@@ -38,6 +38,14 @@ QPushButton::hover#btnStyle {
 	border-image: url(:/Icon/Asset/Icon/theme_hover.svg);
 }
 
+QPushButton#btnPin {
+	border-image: url(:/Icon/Asset/Icon/pin.svg);
+}
+
+QPushButton::hover#btnPin {
+	border-image: url(:/Icon/Asset/Icon/pin_hover.svg);
+}
+
 QPushButton#btnMin {
 	border-image: url(:/Icon/Asset/Icon/min.svg);
 }
@@ -63,11 +71,11 @@ QPushButton::hover#btnClose {
 }
 
 QPushButton#btnRec {
-	border-image: url(:/Icon/Asset/Icon/play.svg)
+	border-image: url(:/Icon/Asset/Icon/start.svg)
 }
 
 QPushButton::hover#btnRec {
-	border-image: url(:/Icon/Asset/Icon/play_hover.svg)
+	border-image: url(:/Icon/Asset/Icon/start_hover.svg)
 }
 
 QPushButton#btnSearch {

@@ -5,8 +5,6 @@
         <file>Asset/Icon/min.svg</file>
         <file>Asset/Icon/min_hover.svg</file>
         <file>Asset/Icon/logo.svg</file>
-        <file>Asset/Icon/play.svg</file>
-        <file>Asset/Icon/play_hover.svg</file>
         <file>Asset/Icon/stop.svg</file>
         <file>Asset/Icon/stop_hover.svg</file>
         <file>Asset/Icon/settings.svg</file>
@@ -17,6 +15,12 @@
         <file>Asset/Icon/tray_hover.svg</file>
         <file>Asset/Icon/refresh.svg</file>
         <file>Asset/Icon/refresh_hover.svg</file>
+        <file>Asset/Icon/pin.svg</file>
+        <file>Asset/Icon/pin_hover.svg</file>
+        <file>Asset/Icon/pinned.svg</file>
+        <file>Asset/Icon/pinned_hover.svg</file>
+        <file>Asset/Icon/start.svg</file>
+        <file>Asset/Icon/start_hover.svg</file>
     </qresource>
     <qresource prefix="/Style">
         <file>Asset/Style/lumos.qss</file>

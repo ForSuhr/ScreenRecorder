@@ -3,7 +3,7 @@
    viewBox="0 0 48 48"
    version="1.1"
    id="svg4"
-   sodipodi:docname="stop.svg"
+   sodipodi:docname="start_hover.svg"
    width="48"
    height="48"
    inkscape:version="1.2.2 (732a01da63, 2022-12-09)"
@@ -16,33 +16,34 @@
      id="defs8">
     <linearGradient
        inkscape:collect="always"
-       id="linearGradient505">
+       id="linearGradient1074">
       <stop
-         style="stop-color:#003f5c;stop-opacity:1;"
+         style="stop-color:#aa008c;stop-opacity:1;"
          offset="0"
-         id="stop501" />
+         id="stop1070" />
       <stop
-         style="stop-color:#00516a;stop-opacity:0.89905363;"
-         offset="0.47712484"
-         id="stop1150" />
+         style="stop-color:#b12c55;stop-opacity:0.91228068;"
+         offset="0.20326255"
+         id="stop1080" />
       <stop
-         style="stop-color:#006662;stop-opacity:0.8201893;"
-         offset="0.8100009"
-         id="stop1152" />
+         style="stop-color:#b5a244;stop-opacity:0.94006312;"
+         offset="0.53432608"
+         id="stop1082" />
       <stop
-         style="stop-color:#00836b;stop-opacity:0.6971609;"
-         offset="1"
-         id="stop503" />
+         style="stop-color:#b95849;stop-opacity:0.97254908;"
+         offset="0.79703563"
+         id="stop1078" />
     </linearGradient>
     <linearGradient
        inkscape:collect="always"
-       xlink:href="#linearGradient505"
-       id="linearGradient507"
-       x1="4.5417037"
-       y1="5.2986546"
-       x2="44.984497"
-       y2="44.768223"
-       gradientUnits="userSpaceOnUse" />
+       xlink:href="#linearGradient1074"
+       id="linearGradient1076"
+       x1="8.7589998"
+       y1="8.4345932"
+       x2="37.739395"
+       y2="38.496346"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(1.0909091,0,0,1.0909091,-2.1818182,-2.1818182)" />
   </defs>
   <sodipodi:namedview
      id="namedview6"
@@ -54,9 +55,9 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#505050"
      showgrid="false"
-     inkscape:zoom="4.6238155"
-     inkscape:cx="-20.545803"
-     inkscape:cy="9.5159507"
+     inkscape:zoom="4.6238154"
+     inkscape:cx="-8.867136"
+     inkscape:cy="8.2183212"
      inkscape:window-width="1920"
      inkscape:window-height="1017"
      inkscape:window-x="-8"
@@ -65,7 +66,7 @@
      inkscape:current-layer="svg4" />
   <!--! Font Awesome Pro 6.3.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. -->
   <path
-     d="M 2,9.333333 C 2,5.288542 5.2885417,2 9.3333333,2 H 38.666667 C 42.711458,2 46,5.288542 46,9.333333 V 38.66667 C 46,42.71146 42.711458,46 38.666667,46 H 9.3333333 C 5.2885417,46 2,42.71146 2,38.66667 Z"
+     d="m 0,24 a 24,24 0 1 1 48,0 24,24 0 1 1 -48,0 z m 24,-9 a 9,9 0 1 1 0,18 9,9 0 1 1 0,-18 z m 0,21 a 12,12 0 1 0 0,-24 12,12 0 1 0 0,24 z m 0,-9 a 3,3 0 1 0 0,-6 3,3 0 1 0 0,6 z"
      id="path2"
-     style="stroke-width:0.114583;fill:url(#linearGradient507);fill-opacity:1" />
+     style="fill:url(#linearGradient1076);fill-opacity:1;stroke-width:0.0937501" />
 </svg>
