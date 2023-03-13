@@ -14,10 +14,14 @@
 // style sheet
 static QString qssLumosPath = ":/Style/Asset/Style/lumos.qss";
 static QString qssNoxPath = ":/Style/Asset/Style/nox.qss";
-static QString playBtnStyle = "QPushButton#btnRec{border-image:url(:/Icon/Asset/Icon/play.svg)};"
-"QPushButton::hover#btnRec{border-image:url(:/Icon/Asset/Icon/play_hover.svg)};";
-static QString stopBtnStyle = "QPushButton#btnRec{border-image:url(:/Icon/Asset/Icon/stop.svg)};"
-"QPushButton::hover#btnRec{border-image:url(:/Icon/Asset/Icon/stop_hover.svg)};";
+static QString startBtnStyle = "QPushButton#btnRec{border-image:url(:/Icon/Asset/Icon/start.svg)}"
+"QPushButton::hover#btnRec{border-image:url(:/Icon/Asset/Icon/start_hover.svg)}";
+static QString stopBtnStyle = "QPushButton#btnRec{border-image:url(:/Icon/Asset/Icon/stop.svg)}"
+"QPushButton::hover#btnRec{border-image:url(:/Icon/Asset/Icon/stop_hover.svg)}";
+static QString pinBtnStyle = "QPushButton#btnPin{border-image:url(:/Icon/Asset/Icon/pin.svg)}"
+"QPushButton::hover#btnPin{border-image:url(:/Icon/Asset/Icon/pin_hover.svg)}";
+static QString pinnedBtnStyle = "QPushButton#btnPin{border-image:url(:/Icon/Asset/Icon/pinned.svg)}"
+"QPushButton::hover#btnPin{border-image:url(:/Icon/Asset/Icon/pinned_hover.svg)}";
 
 ScreenRecorder::ScreenRecorder(QWidget *parent)
     : QWidget(parent), m_ptrUtilsWrapper(new UtilsWrapper)
@@ -137,7 +141,7 @@ void ScreenRecorder::on_btnRec_clicked()
             m_ptrTimer->stop();
             m_RecSeconds = 0;
             ui.lcdNumber->display("00:00:00");
-            ui.btnRec->setStyleSheet(playBtnStyle);
+            ui.btnRec->setStyleSheet(startBtnStyle);
             m_isRecording = false;
         }
     }
@@ -190,9 +194,28 @@ void ScreenRecorder::on_btnStyle_clicked()
 
 }
 
+void ScreenRecorder::on_btnPin_clicked()
+{
+    m_isPinned = !m_isPinned;
+    if (m_isPinned) {
+        setWindowFlags(Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
+        show();
+        ui.btnPin->setStyleSheet(pinnedBtnStyle);
+    }
+    else {
+        setWindowFlags(Qt::FramelessWindowHint);
+        show();
+        ui.btnPin->setStyleSheet(pinBtnStyle);
+    }
+}
+
 void ScreenRecorder::on_btnMin_clicked()
 {
     pWin->showMinimized();
+}
+
+void ScreenRecorder::on_btnTray_clicked()
+{
 }
 
 void ScreenRecorder::on_btnClose_clicked()

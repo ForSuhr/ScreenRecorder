@@ -39,7 +39,9 @@ public slots:
     void on_timer_timeout();
     void on_btnSet_clicked();
     void on_btnStyle_clicked();
+    void on_btnPin_clicked();
     void on_btnMin_clicked();
+    void on_btnTray_clicked();
     void on_btnClose_clicked();
 
 protected:
@@ -59,6 +61,7 @@ private:
 
     bool m_isRecording = false;
     int m_RecSeconds = 0;
+    bool m_isPinned = false;
     WINDOW_POS m_winPos;
     WINDOW_STATE m_winState;
 };
