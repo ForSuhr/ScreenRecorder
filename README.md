@@ -17,7 +17,9 @@ All captures are stored under `C:\Users\username\Videos\Captures` currently.
 - Colorful Themes
 - Auto Hide
 - Pinnable
-### Known issues
+### Future
+More features coming soon.
+### Known Issues
 - Single Window Video Record
 ## Linux
 Currently in development.
