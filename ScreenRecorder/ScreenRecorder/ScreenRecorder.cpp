@@ -199,10 +199,12 @@ void ScreenRecorder::on_btnPin_clicked()
     m_isPinned = !m_isPinned;
     if (m_isPinned) {
         setWindowFlags(windowFlags() | Qt::WindowStaysOnTopHint);
+        show();
         ui.btnPin->setStyleSheet(pinnedBtnStyle);
     }
     else {
         setWindowFlags(windowFlags() & ~Qt::WindowStaysOnTopHint);
+        show();
         ui.btnPin->setStyleSheet(pinBtnStyle);
     }
 }
