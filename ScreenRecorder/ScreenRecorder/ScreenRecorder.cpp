@@ -155,7 +155,7 @@ void ScreenRecorder::on_timer_timeout()
     int minute = (m_RecSeconds - hour * 3600) / 60; 
     int second = m_RecSeconds % 60;
 
-    string time = std::format("{:02d}:{:02d}:{:02d}", hour, minute, second);
+    string time = format("{:02d}:{:02d}:{:02d}", hour, minute, second);
     ui.lcdNumber->display(time.c_str());
 }
 

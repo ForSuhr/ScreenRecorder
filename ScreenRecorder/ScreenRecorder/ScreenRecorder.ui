@@ -364,14 +364,14 @@
          <widget class="QPushButton" name="btnRec">
           <property name="minimumSize">
            <size>
-            <width>48</width>
-            <height>48</height>
+            <width>96</width>
+            <height>96</height>
            </size>
           </property>
           <property name="maximumSize">
            <size>
-            <width>48</width>
-            <height>48</height>
+            <width>96</width>
+            <height>96</height>
            </size>
           </property>
           <property name="styleSheet">
