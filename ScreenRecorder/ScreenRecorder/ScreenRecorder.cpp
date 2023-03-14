@@ -198,13 +198,11 @@ void ScreenRecorder::on_btnPin_clicked()
 {
     m_isPinned = !m_isPinned;
     if (m_isPinned) {
-        setWindowFlags(Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
-        show();
+        setWindowFlags(windowFlags() | Qt::WindowStaysOnTopHint);
         ui.btnPin->setStyleSheet(pinnedBtnStyle);
     }
     else {
-        setWindowFlags(Qt::FramelessWindowHint);
-        show();
+        setWindowFlags(windowFlags() & ~Qt::WindowStaysOnTopHint);
         ui.btnPin->setStyleSheet(pinBtnStyle);
     }
 }
