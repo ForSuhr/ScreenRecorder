@@ -103,17 +103,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ConfigPanel.cpp" />
     <ClCompile Include="ConfigParser.cpp" />
     <ClCompile Include="Helper.cpp" />
     <ClCompile Include="StyleSheet.cpp" />
     <ClCompile Include="UtilsWrapper.cpp" />
     <QtRcc Include="ScreenRecorder.qrc" />
+    <QtUic Include="ConfigPanel.ui" />
     <QtUic Include="ScreenRecorder.ui" />
     <QtMoc Include="ScreenRecorder.h" />
     <ClCompile Include="ScreenRecorder.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <QtMoc Include="ConfigPanel.h" />
     <ClInclude Include="ConfigParser.h" />
     <ClInclude Include="Helper.h" />
     <ClInclude Include="StyleSheet.h" />

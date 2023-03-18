@@ -22,11 +22,11 @@ QCheckBox {
 
 /* shared */
 
-QPushButton#btnSet {
+QPushButton#btnConfig {
 	border-image: url(:/Icon/Asset/Icon/settings.svg);
 }
 
-QPushButton::hover#btnSet {
+QPushButton::hover#btnConfig {
 	border-image: url(:/Icon/Asset/Icon/settings_hover.svg);
 }
 

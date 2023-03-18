@@ -27,3 +27,17 @@ void ConfigParser::setConfig(string key, string value)
 {
     settings->setValue(QString::fromStdString(key), QString::fromStdString(value));
 }
+
+void ConfigParser::checkConfig()
+{
+    QFile file(CONFIG_PATH);
+    if (!file.exists()) {
+        string userDir = getenv("USERPROFILE");
+        QString outputDir = QString::fromStdString(userDir + R"(\Videos\Captures\)");
+        QDir f(outputDir);
+        if (!f.exists()) QDir().mkpath(outputDir);
+        setConfig("General/OutputPath", outputDir.toStdString());
+    }
+}
+
+

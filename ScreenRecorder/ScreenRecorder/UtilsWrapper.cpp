@@ -1,5 +1,6 @@
 #pragma warning(disable: 4996)
 #include "UtilsWrapper.h"
+#include "ConfigParser.h"
 #include <string>
 #include <QApplication>
 #include "libavcodec/avcodec.h"
@@ -242,12 +243,12 @@ bool UtilsWrapper::SetupOutputMode()
 bool UtilsWrapper::SetupFFmpeg()
 {
 	obs_data_t* settings = obs_data_create();
+	string capturesDir = ConfigParser::getInstance().getConfig("General/OutputPath");
+	string prefix = "/capture_";
 	QDateTime qdt = QDateTime::currentDateTime();
 	string timeStr = qdt.toString("yyyy-MM-ddThh-mm-ss").toStdString();
-	string userDir = getenv("USERPROFILE");
-	string capturesDir = R"(\Videos\Captures\capture_)";
 	string dataFormat = ".mp4";
-	string outFileName = userDir + capturesDir + timeStr + dataFormat;
+	string outFileName = capturesDir + prefix + timeStr + dataFormat;
 
 	obs_data_set_string(settings, "url", outFileName.c_str());
 	obs_data_set_string(settings, "format_name", RECORD_OUTPUT_FORMAT);

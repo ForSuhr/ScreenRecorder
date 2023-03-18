@@ -1,6 +1,5 @@
 #pragma comment (lib, "user32.lib")
 #include "ScreenRecorder.h"
-#include "StyleSheet.h"
 #include <QMessageBox>
 #include <QFile>
 #include <QMouseEvent>
@@ -48,6 +47,10 @@ ScreenRecorder::ScreenRecorder(QWidget *parent)
     connect(m_systemTray, &QSystemTrayIcon::activated, [=](QSystemTrayIcon::ActivationReason reason) {
         if (reason == QSystemTrayIcon::Trigger) show();
     });
+
+    // config panel
+    m_configPanel = new ConfigPanel();
+    m_configPanel->setWindowModality(Qt::ApplicationModal);
  
     // main widget
     ui.lcdNumber->setDigitCount(8); // note that the default digit number is 5, this number can be access by "int digitCount()"
@@ -92,14 +95,14 @@ ScreenRecorder::~ScreenRecorder()
 {}
 
 #pragma region title bar
-void ScreenRecorder::on_btnSet_clicked()
-{
 
+void ScreenRecorder::on_btnConfig_clicked()
+{
+    m_configPanel->show();
 }
 
 void ScreenRecorder::on_btnStyle_clicked()
 {
-
 }
 
 void ScreenRecorder::on_btnPin_clicked()
@@ -132,6 +135,7 @@ void ScreenRecorder::on_btnClose_clicked()
 {
     pWin->close();
 }
+
 #pragma endregion title bar
 
 #pragma region main window

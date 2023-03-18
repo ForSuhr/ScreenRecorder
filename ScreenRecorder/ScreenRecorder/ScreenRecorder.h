@@ -2,6 +2,9 @@
 #include <QtWidgets/QWidget>
 #include <qt_windows.h>
 #include "ui_ScreenRecorder.h"
+#include "StyleSheet.h"
+#include "ConfigPanel.h"
+#include "ConfigParser.h"
 #include "UtilsWrapper.h"
 #include <memory>
 #include <QTimer>
@@ -32,7 +35,7 @@ public:
 
 public slots:
     // title bar
-    void on_btnSet_clicked();
+    void on_btnConfig_clicked();
     void on_btnStyle_clicked();
     void on_btnPin_clicked();
     void on_btnMin_clicked();
@@ -59,6 +62,7 @@ private:
     // field for view
     Ui::ScreenRecorderClass ui;
     QSystemTrayIcon* m_systemTray;
+    ConfigPanel* m_configPanel;
     // field for controller
     QTimer* m_ptrTimer;
     QWidget* pWin = nullptr;
