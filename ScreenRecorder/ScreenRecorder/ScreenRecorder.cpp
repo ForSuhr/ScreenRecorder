@@ -12,28 +12,53 @@
 
 #define TIME_OUT_MILLISECONDS 1000
 
+
 ScreenRecorder::ScreenRecorder(QWidget *parent)
     : QWidget(parent), m_ptrUtilsWrapper(new UtilsWrapper)
 {
+    #pragma region view
+
+    // ui setup
     ui.setupUi(this);
 
-    // widgets
+    // title bar
     QPixmap pixLogo(":/Icon/Asset/Icon/logo.svg");
     ui.qlabelLogo->setPixmap(pixLogo);
 
-    pMenu = new QMenu(this);
-    pActLumos = new QAction("Lumos", this);
-    pActNox = new QAction("Nox", this);
-    pMenu->addAction(pActLumos);
-    pMenu->addAction(pActNox);
-    ui.btnStyle->setMenu(pMenu);
+    QAction* pThemeLumos = new QAction("Lumos", this);
+    QAction* pThemeNox = new QAction("Nox", this);
+    connect(pThemeLumos, &QAction::triggered, [=] {StyleSheet::getInstance().loadQSS(this, qssLumosPath); });
+    connect(pThemeNox, &QAction::triggered, [=] {StyleSheet::getInstance().loadQSS(this, qssNoxPath); });
+    QMenu* pThemeMenu = new QMenu(this);
+    pThemeMenu->addAction(pThemeLumos);
+    pThemeMenu->addAction(pThemeNox);
+    ui.btnStyle->setMenu(pThemeMenu);
 
+    QIcon trayIcon = QIcon(":/Icon/Asset/Icon/logo.svg");
+    m_systemTray = new QSystemTrayIcon(this);
+    m_systemTray->setIcon(trayIcon);
+    QMenu* pTrayMenu = new QMenu(this);
+    QAction* pTrayShowMainWindow = new QAction("Show Main Window", this);
+    QAction* pTrayExit = new QAction("Exit", this);
+    connect(pTrayShowMainWindow, &QAction::triggered, this, &QWidget::show);
+    connect(pTrayExit, &QAction::triggered, this, &QWidget::close);
+    pTrayMenu->addAction(pTrayShowMainWindow);
+    pTrayMenu->addAction(pTrayExit);
+    m_systemTray->setContextMenu(pTrayMenu);
+    connect(m_systemTray, &QSystemTrayIcon::activated, [=](QSystemTrayIcon::ActivationReason reason) {
+        if (reason == QSystemTrayIcon::Trigger) show();
+    });
+ 
+    // main widget
     ui.lcdNumber->setDigitCount(8); // note that the default digit number is 5, this number can be access by "int digitCount()"
     ui.lcdNumber->display("00:00:00");
     m_ptrTimer = new QTimer(this);
     ui.checkBoxOutputAudio->setChecked(true);
     ui.checkBoxInputAudio->setChecked(false);
 
+    #pragma endregion view
+
+    #pragma region controller
     // get the window instance
     pWin = this->window();
 
@@ -48,14 +73,19 @@ ScreenRecorder::ScreenRecorder(QWidget *parent)
 
     // style sheet
     StyleSheet::getInstance().loadQSS(this, qssLumosPath);
-    connect(pActLumos, &QAction::triggered, [=] {StyleSheet::getInstance().loadQSS(this, qssLumosPath); });
-    connect(pActNox, &QAction::triggered, [=] {StyleSheet::getInstance().loadQSS(this, qssNoxPath); });
+    #pragma endregion controller
 
+    #pragma region model
     // model initialization
     if (!m_ptrUtilsWrapper->InitUtils()) {
         QMessageBox::warning(this, "Warn", "Initialization failed!");
         exit(0);
     }
+
+    audio_source.useOutputAudio = ui.checkBoxOutputAudio->isChecked();
+    audio_source.useInputAudio = ui.checkBoxInputAudio->isChecked();
+    #pragma endregion model
+
 }
 
 ScreenRecorder::~ScreenRecorder()
@@ -94,6 +124,8 @@ void ScreenRecorder::on_btnMin_clicked()
 
 void ScreenRecorder::on_btnTray_clicked()
 {
+    this->hide();
+    m_systemTray->show();
 }
 
 void ScreenRecorder::on_btnClose_clicked()

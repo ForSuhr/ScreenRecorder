@@ -8,6 +8,7 @@
 #include <QSystemTrayIcon>
 #include <QMenu>
 
+
 struct WINDOW_POS {
     bool atTopEdge = false;
     bool atLeftEdge = false;
@@ -47,21 +48,20 @@ protected:
     bool eventFilter(QObject* obj, QEvent* event) override;
 
 private:
-    Ui::ScreenRecorderClass ui;
+    // field for model
     std::unique_ptr<UtilsWrapper> m_ptrUtilsWrapper;
-    QTimer* m_ptrTimer;
-    QSystemTrayIcon* m_systemTray;
-    QWidget* pWin = nullptr;
-    QMenu* pMenu = nullptr;
-    QAction* pActNox = nullptr;
-    QAction* pActLumos = nullptr;
-    REC_OBJ m_recMonitorObj;
-    REC_OBJ m_recWindowObj;
-    AUDIO_SOURCE audio_source;
-
     bool m_isRecording = false;
     int m_RecSeconds = 0;
     bool m_isPinned = false;
+    REC_OBJ m_recMonitorObj;
+    REC_OBJ m_recWindowObj;
+    AUDIO_SOURCE audio_source;
+    // field for view
+    Ui::ScreenRecorderClass ui;
+    QSystemTrayIcon* m_systemTray;
+    // field for controller
+    QTimer* m_ptrTimer;
+    QWidget* pWin = nullptr;
     WINDOW_POS m_winPos;
     WINDOW_STATE m_winState;
 };
