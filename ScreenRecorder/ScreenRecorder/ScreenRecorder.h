@@ -28,21 +28,19 @@ class ScreenRecorder : public QWidget
 public:
     ScreenRecorder(QWidget *parent = Q_NULLPTR);
     ~ScreenRecorder();
-    void LoadQSS(QString qssPath);
-
-    QAction* pActNox = nullptr;
-    QAction* pActLumos = nullptr;
 
 public slots:
-    void on_btnSearch_clicked();
-    void on_btnRec_clicked();
-    void on_timer_timeout();
+    // title bar
     void on_btnSet_clicked();
     void on_btnStyle_clicked();
     void on_btnPin_clicked();
     void on_btnMin_clicked();
     void on_btnTray_clicked();
     void on_btnClose_clicked();
+    // main window
+    void on_btnSearch_clicked();
+    void on_btnRec_clicked();
+    void on_timer_timeout();
 
 protected:
     void mousePressEvent(QMouseEvent* event);
@@ -55,6 +53,8 @@ private:
     QSystemTrayIcon* m_systemTray;
     QWidget* pWin = nullptr;
     QMenu* pMenu = nullptr;
+    QAction* pActNox = nullptr;
+    QAction* pActLumos = nullptr;
     REC_OBJ m_recMonitorObj;
     REC_OBJ m_recWindowObj;
     AUDIO_SOURCE audio_source;

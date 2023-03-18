@@ -13,8 +13,8 @@ ConfigParser::~ConfigParser()
 
 ConfigParser& ConfigParser::getInstance()
 {
-    static ConfigParser m_instance;
-    return m_instance;
+    static ConfigParser instance;
+    return instance;
 }
 
 string ConfigParser::getConfig(string key)

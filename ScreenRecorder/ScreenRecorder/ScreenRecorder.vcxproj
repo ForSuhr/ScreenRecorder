@@ -105,6 +105,7 @@
   <ItemGroup>
     <ClCompile Include="ConfigParser.cpp" />
     <ClCompile Include="Helper.cpp" />
+    <ClCompile Include="StyleSheet.cpp" />
     <ClCompile Include="UtilsWrapper.cpp" />
     <QtRcc Include="ScreenRecorder.qrc" />
     <QtUic Include="ScreenRecorder.ui" />
@@ -115,6 +116,7 @@
   <ItemGroup>
     <ClInclude Include="ConfigParser.h" />
     <ClInclude Include="Helper.h" />
+    <ClInclude Include="StyleSheet.h" />
     <ClInclude Include="UtilsWrapper.h" />
   </ItemGroup>
   <ItemGroup>

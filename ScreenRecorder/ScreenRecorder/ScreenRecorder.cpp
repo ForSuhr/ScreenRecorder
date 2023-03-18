@@ -1,5 +1,6 @@
 #pragma comment (lib, "user32.lib")
 #include "ScreenRecorder.h"
+#include "StyleSheet.h"
 #include <QMessageBox>
 #include <QFile>
 #include <QMouseEvent>
@@ -10,18 +11,6 @@
 
 
 #define TIME_OUT_MILLISECONDS 1000
-
-// style sheet
-static QString qssLumosPath = ":/Style/Asset/Style/lumos.qss";
-static QString qssNoxPath = ":/Style/Asset/Style/nox.qss";
-static QString startBtnStyle = "QPushButton#btnRec{border-image:url(:/Icon/Asset/Icon/start.svg)}"
-"QPushButton::hover#btnRec{border-image:url(:/Icon/Asset/Icon/start_hover.svg)}";
-static QString stopBtnStyle = "QPushButton#btnRec{border-image:url(:/Icon/Asset/Icon/stop.svg)}"
-"QPushButton::hover#btnRec{border-image:url(:/Icon/Asset/Icon/stop_hover.svg)}";
-static QString pinBtnStyle = "QPushButton#btnPin{border-image:url(:/Icon/Asset/Icon/pin.svg)}"
-"QPushButton::hover#btnPin{border-image:url(:/Icon/Asset/Icon/pin_hover.svg)}";
-static QString pinnedBtnStyle = "QPushButton#btnPin{border-image:url(:/Icon/Asset/Icon/pinned.svg)}"
-"QPushButton::hover#btnPin{border-image:url(:/Icon/Asset/Icon/pinned_hover.svg)}";
 
 ScreenRecorder::ScreenRecorder(QWidget *parent)
     : QWidget(parent), m_ptrUtilsWrapper(new UtilsWrapper)
@@ -50,8 +39,6 @@ ScreenRecorder::ScreenRecorder(QWidget *parent)
 
     // signal-slot
     connect(m_ptrTimer, &QTimer::timeout, this, &ScreenRecorder::on_timer_timeout);
-    connect(pActLumos, &QAction::triggered, [=] {LoadQSS(qssLumosPath); });
-    connect(pActNox, &QAction::triggered, [=] {LoadQSS(qssNoxPath); });
 
     // event filter
     installEventFilter(this);
@@ -60,7 +47,9 @@ ScreenRecorder::ScreenRecorder(QWidget *parent)
     setWindowFlags(Qt::FramelessWindowHint);
 
     // style sheet
-    LoadQSS(qssLumosPath);
+    StyleSheet::getInstance().loadQSS(this, qssLumosPath);
+    connect(pActLumos, &QAction::triggered, [=] {StyleSheet::getInstance().loadQSS(this, qssLumosPath); });
+    connect(pActNox, &QAction::triggered, [=] {StyleSheet::getInstance().loadQSS(this, qssNoxPath); });
 
     // model initialization
     if (!m_ptrUtilsWrapper->InitUtils()) {
@@ -72,6 +61,48 @@ ScreenRecorder::ScreenRecorder(QWidget *parent)
 ScreenRecorder::~ScreenRecorder()
 {}
 
+#pragma region title bar
+void ScreenRecorder::on_btnSet_clicked()
+{
+
+}
+
+void ScreenRecorder::on_btnStyle_clicked()
+{
+
+}
+
+void ScreenRecorder::on_btnPin_clicked()
+{
+    m_isPinned = !m_isPinned;
+    if (m_isPinned) {
+        setWindowFlags(windowFlags() | Qt::WindowStaysOnTopHint);
+        show();
+        ui.btnPin->setStyleSheet(pinnedBtnStyle);
+    }
+    else {
+        setWindowFlags(windowFlags() & ~Qt::WindowStaysOnTopHint);
+        show();
+        ui.btnPin->setStyleSheet(pinBtnStyle);
+    }
+}
+
+void ScreenRecorder::on_btnMin_clicked()
+{
+    pWin->showMinimized();
+}
+
+void ScreenRecorder::on_btnTray_clicked()
+{
+}
+
+void ScreenRecorder::on_btnClose_clicked()
+{
+    pWin->close();
+}
+#pragma endregion title bar
+
+#pragma region main window
 void ScreenRecorder::on_btnSearch_clicked()
 {
     // search for monitor & window sources
@@ -152,27 +183,15 @@ void ScreenRecorder::on_timer_timeout()
     m_RecSeconds++;
 
     int hour = m_RecSeconds / 3600;
-    int minute = (m_RecSeconds - hour * 3600) / 60; 
+    int minute = (m_RecSeconds - hour * 3600) / 60;
     int second = m_RecSeconds % 60;
 
     string time = format("{:02d}:{:02d}:{:02d}", hour, minute, second);
     ui.lcdNumber->display(time.c_str());
 }
+#pragma endregion main window
 
-void ScreenRecorder::LoadQSS(QString qssPath)
-{
-    QFile file(qssPath);
-    QString qss;
-
-    if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        qss = file.readAll();
-    }
-
-    file.close();
-
-    this->setStyleSheet(qss);
-}
-
+#pragma region Event
 void ScreenRecorder::mousePressEvent(QMouseEvent* event)
 {
     if (ui.titleBarWidget && ui.titleBarWidget->underMouse()) {
@@ -182,45 +201,6 @@ void ScreenRecorder::mousePressEvent(QMouseEvent* event)
             }
         }
     }
-}
-
-void ScreenRecorder::on_btnSet_clicked()
-{
-
-}
-
-void ScreenRecorder::on_btnStyle_clicked()
-{
-
-}
-
-void ScreenRecorder::on_btnPin_clicked()
-{
-    m_isPinned = !m_isPinned;
-    if (m_isPinned) {
-        setWindowFlags(windowFlags() | Qt::WindowStaysOnTopHint);
-        show();
-        ui.btnPin->setStyleSheet(pinnedBtnStyle);
-    }
-    else {
-        setWindowFlags(windowFlags() & ~Qt::WindowStaysOnTopHint);
-        show();
-        ui.btnPin->setStyleSheet(pinBtnStyle);
-    }
-}
-
-void ScreenRecorder::on_btnMin_clicked()
-{
-    pWin->showMinimized();
-}
-
-void ScreenRecorder::on_btnTray_clicked()
-{
-}
-
-void ScreenRecorder::on_btnClose_clicked()
-{
-    pWin->close();
 }
 
 bool ScreenRecorder::eventFilter(QObject* obj, QEvent* event)
@@ -318,3 +298,6 @@ bool ScreenRecorder::eventFilter(QObject* obj, QEvent* event)
 
     return QWidget::eventFilter(obj, event);
 }
+#pragma endregion Event
+
+
