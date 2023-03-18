@@ -17,7 +17,7 @@
 
 #define DL_D3D11 "libobs-d3d11.dll"
 #define DL_OPENGL "libobs-opengl.dll"
-#define FPS	60
+#define FPS	144
 #define WIDTH 1920
 #define HEIGHT 1080
 #define VIDEO_ENCODER_ID AV_CODEC_ID_H264
