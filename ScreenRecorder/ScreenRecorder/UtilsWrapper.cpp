@@ -158,7 +158,7 @@ bool UtilsWrapper::SetupAudio() {
 bool UtilsWrapper::SetupVideo() {
 	struct obs_video_info video_info;
 	video_info.graphics_module = DL_D3D11;
-	video_info.fps_num = FPS;
+	video_info.fps_num = stoi(ConfigParser::getInstance().getConfig("AV/FPS"));
 	video_info.fps_den = 1;
 	video_info.base_width = WIDTH;
 	video_info.base_height = HEIGHT;
@@ -254,7 +254,7 @@ bool UtilsWrapper::SetupFFmpeg()
 	obs_data_set_string(settings, "format_name", RECORD_OUTPUT_FORMAT);
 	obs_data_set_string(settings, "format_mime_type", RECORD_OUTPUT_FORMAT_MIME);
 	obs_data_set_string(settings, "muxer_settings", "movflags=faststart");
-	obs_data_set_int(settings, "gop_size", FPS * 10);
+	obs_data_set_int(settings, "gop_size", stoi(ConfigParser::getInstance().getConfig("FPS")) * 10);
 	obs_data_set_string(settings, "video_encoder", VIDEO_ENCODER_NAME);
 	obs_data_set_int(settings, "video_encoder_id", VIDEO_ENCODER_ID);
 
