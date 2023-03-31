@@ -23,3 +23,8 @@ More features coming soon.
 - Single Window Video Record
 ## Linux
 Currently in development.
+
+## Dependencies
+[FFmpeg](https://git.ffmpeg.org/ffmpeg.git)
+
+[obs](https://github.com/obsproject/obs-studio)
