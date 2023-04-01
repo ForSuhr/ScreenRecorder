@@ -9,7 +9,7 @@ ScreenRecorder is an elegant and lightweight screen recorder.
 
 ## Get Started
 ## Windows
-All captures are stored under `C:\Users\username\Videos\Captures` currently.
+All captures are stored under `%USERPROFILE%\Videos\Captures` by default, you can change it in settings.
 ### Features
 - Monitor Video Record
 - Monitor Audio Record
