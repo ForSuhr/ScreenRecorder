@@ -12,17 +12,11 @@ ScreenRecorder is an elegant and lightweight screen recorder.
 All captures are stored under `%USERPROFILE%\Videos\Captures` by default, you can change it in settings.
 ### Features
 - Monitor Video Record
-- Monitor Audio Record
-- Mic/Aux Audio Record
-- Colorful Themes
 - Auto Hide
-- Pinnable
 ### Future
 More features coming soon.
 ### Known Issues
 - Single Window Video Record
-## Linux
-Currently in development.
 
 ## Dependencies
 [FFmpeg](https://git.ffmpeg.org/ffmpeg.git)
